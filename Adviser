@@ -56,40 +56,62 @@ adviser_1.refer_counselor("Refer Garcia, J. to Counselor Jasmine Marie")
 
 VERSION 2
 
-class Counselor:
-    def __init__(self, name, schedule):
+class Adviser:
+    def __init__(self, name, email, contact_number, department, office_hours, consulting_students):
         self.name = name
-        self.schedule = schedule
-        self.email = name.lower().replace(" ", "") + "@up.edu.ph"
+        self.email = email
+        self.contact_number = contact_number
+        self.department = department
+        self.office_hours = office_hours
+        self.consulting_students = consulting_students  # list of student names
 
     def get_name(self):
         return self.name
 
-    def get_email(self):
+    def get_email_address(self):
         return self.email
 
-    def get_schedule(self):
-        return self.schedule
+    def get_contact_number(self):
+        return self.contact_number
 
-    def update_schedule(self, new_schedule):
-        self.schedule = new_schedule
+    def get_department(self):
+        return self.department
 
+    def get_office_hours(self):  
+        return self.office_hours
+        
+    def view_consulting_students(self):
+        print("Consulting Students:")
+        for student in self.consulting_students:
+            print("- {}".format(student))
 
-# Create counselor instances
-counselor_1 = Counselor('Case Scout', "Mon-Fri 2-5PM")
-counselor_2 = Counselor('Test User', "MTTH 1-4PM")
+    def refer_counselor(self, message):
+        print("Referral:", message)
 
-# Access info
-name = counselor_1.get_name()
-email = counselor_1.get_email()
-schedule = counselor_1.get_schedule()
+# Create adviser instance with list of student names
+adviser_1 = Adviser(
+    "Maricel Panganiban",
+    "mpanganiban@up.edu.ph",
+    "0912-345-6789",
+    "Faculty of Information and Communication Studies",
+    "Monday - Friday (7AM to 4PM)",
+    ["Garcia, J.", "Ramos, A.", "Santos, J. M.", "Flores, U.L."]
+)
 
-# Print info
+# Access data
+name = adviser_1.get_name()
+email = adviser_1.get_email_address()
+contact = adviser_1.get_contact_number()
+office_hours = adviser_1.get_office_hours()
+dept = adviser_1.get_department()
+
+# Print details
 print("Name:", name)
 print("Email:", email)
-print("Schedule:", schedule)
+print("Contact Number:", contact)
+print("Office hours:", office_hours)
+print("Department:", dept)
 
-# Update schedule and print again
-counselor_1.update_schedule("New schedule: TTH 1-3PM")
-print("Updated Schedule:", counselor_1.get_schedule())
-
+# View consulting students and refer a student
+adviser_1.view_consulting_students()
+adviser_1.refer_counselor("Refer Garcia, J. to Counselor Jasmine Marie")
