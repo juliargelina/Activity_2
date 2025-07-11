@@ -20,6 +20,5 @@ class Adviser:
         return self.department
 
     def view_consulting_students(self):
-        print("consulting students:") 
         self.consulting_students = student_names
 
