@@ -22,3 +22,5 @@ class Adviser:
     def view_consulting_students(self):
         self.consulting_students = student_names
 
+    def refer_counselor(self, message):
+            
