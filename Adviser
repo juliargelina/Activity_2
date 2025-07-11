@@ -19,4 +19,6 @@ class Adviser:
     def get_department(self):
         return self.department
 
-    def get_
+    def view_consulting_students(self):
+        print("consulting students:") 
+        self.consulting_students = consulting_students
