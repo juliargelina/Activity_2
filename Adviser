@@ -23,4 +23,15 @@ class Adviser:
         self.consulting_students = student_names
 
     def refer_counselor(self, message):
+        self.refer = message
+
+adviser1 = Adviser(
+    "Maricel Panganiban",
+    "mpanganiban@up.edu.ph",
+    "0912-345-6789",
+    "Faculty of Information and Communication Studies",
+    "Monday - Friday (7AM to 4PM)",
+    ["Garcia, J.", "Ramos, A.", "Santos, J. M.", "Flores, U.L."]
+
+
             
