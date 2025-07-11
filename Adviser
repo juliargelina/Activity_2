@@ -1,4 +1,22 @@
-name = adviser1.get_name()
-email = adviser1.get_email_address()
-contact = adviser1.get_contact_number()
-dept = adviser1.get_department()
+class Adviser:
+    def __init__(self, name, email, contact_number, department, office_hours, consulting_students):
+        self.name = name
+        self.email = email
+        self.contact_number = contact_number
+        self.department = department
+        self.office_hours = office_hours
+        self.consulting_students = consulting_students  # should be a list of student names
+
+    def get_name(self):
+        return self.name
+
+    def get_email_address(self):
+        return self.email
+
+    def get_contact_number(self):
+        return self.contact_number
+
+    def get_department(self):
+        return self.department
+
+    def get_
