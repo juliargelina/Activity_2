@@ -1,0 +1,4 @@
+name = adviser1.get_name()
+email = adviser1.get_email_address()
+contact = adviser1.get_contact_number()
+dept = adviser1.get_department()
