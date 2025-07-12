@@ -1,5 +1,3 @@
-VERSION 1:
-
 class Adviser:
     def __init__(self, name, email, contact_number, department, office_hours, consulting_students):
         self.name = name
@@ -34,14 +32,7 @@ class Adviser:
 
 
 # Create adviser instance
-adviser_1 = Adviser(
-    "Maricel Panganiban",
-    "mpanganiban@up.edu.ph",
-    "0912-345-6789",
-    "Faculty of Information and Communication Studies",
-    "Monday - Friday (7AM to 4PM)",
-    ["Garcia, J.", "Ramos, A.", "Santos, J. M.", "Flores, U.L."]
-)
+adviser_1 = Adviser( name = "Maricel Panganiban", email = "mpanganiban@up.edu.ph", contact_number = "0912-345-6789", department = "Faculty of Information and Communication Studies", office_hours = "Monday - Friday (7AM to 4PM)", consulting_students = ["Garcia, J.", "Ramos, A.", "Santos, J. M.", "Flores, U.L."])
 
 print("Name:", adviser_1.get_name())
 print("Email:", adviser_1.get_email_address())
