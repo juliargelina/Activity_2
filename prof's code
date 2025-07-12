@@ -1,0 +1,77 @@
+from datetime import datetime
+
+class Student:
+
+    def __init__(self, id_number, name, degree_program, birthday):
+        self.id_number = id_number
+        self.name = name
+        self.degree_program = degree_program
+        self.birthday = birthday
+        self.mobile_no = None
+        self.email_address = None
+        self.adviser = None
+
+    def get_name(self):
+        return self.name
+
+    def get_adviser(self):
+        return self.adviser
+
+    def get_degree_program(self):
+        return self.degree_program
+
+    def get_birthday(self):
+        return self.birthday
+
+    def get_age(self):
+        birth_date = datetime.strptime(self.birthday, '%Y-%m-%d')
+        today = datetime.today()
+        age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+        return age
+
+    def get_email(self):
+        return self.email_address
+
+    def get_mobile_no(self):
+        return self.mobile_no
+
+    def set_adviser(self, adviser):
+        self.adviser = adviser
+
+    def set_email(self, email_address):
+        if '@' in email_address and '.' in email_address:
+            self.email_address = email_address
+        else:
+            raise ValueError("Invalid email address format")
+
+    def set_degree_program(self, degree_program):
+        self.degree_program = degree_program
+
+    def set_mobile_no(self, mobile_no):
+        if len(mobile_no) == 11 and mobile_no.isdigit():
+            self.mobile_no = mobile_no
+        else:
+            raise ValueError("Invalid mobile number format")
+
+if __name__ == "__main__":
+    student1 = Student(id_number="2025-12345", name="Joan Dela Cruz", degree_program="AA", birthday="2000-01-01")
+
+    print("Student Name:", student1.name)
+    print("Degree Program:", student1.degree_program)
+    print("Birth Date:", student1.birthday)
+    print("Student Name:", student1.get_name())
+    print("Degree Program:", student1.get_degree_program())
+    print("Birth Date:", student1.get_birthday())
+    print("Age:", student1.get_age())
+
+    student1.set_email("jdelacruz@upou.edu.ph")
+    print("Email Address:", student1.get_email())
+
+    student1.set_mobile_no("09123456789")
+    print("Mobile Number:", student1.get_mobile_no())
+
+    student1.set_adviser("Dr. Baisa")
+    print("Adviser:", student1.get_adviser())
+
+    student1.set_degree_program("BA Multimedia Studies")
+    print("Updated Degree Program:", student1.get_degree_program())
