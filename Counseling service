@@ -35,11 +35,10 @@ class CounselingData:
         return (self.next_schedule)
  
 if __name__ == "__main__":
-    CounselingData1 = CounselingData(date_time="July 07 2025, 5:30 - 6:00PM", service="Individual Assessment", session_status="Ongoing", counselor_name="Casy Scout", student_name="Juan A. Dela Cruz", session_notes="Student expressed feelings of burnout because of both school and work schedules.", follow_up="True", next_schedule="July 11 2025, 4:00 - 5:00PM")
+    CounselingData1 = CounselingData(date_time="July 07 2025, 5:30 - 6:00PM", service="Individual Assessment", session_status="Ongoing", counselor_name="Casy Scout", student_name="Juan A. Dela Cruz", session_notes="Student expressed feelings of burnout because of both school and work schedules.", follow_up="Yes", next_schedule="July 11 2025, 4:00 - 5:00PM")
     
     print("Date and Time:", CounselingData1.date_time)
     print("Type of Service:", CounselingData1.service)
-    print("Type of Service", CounselingData1.service)
     print("Status", CounselingData1.session_status)
     print("Counselor Name:", CounselingData1.counselor_name)
     print("Student Name:", CounselingData1.student_name)
