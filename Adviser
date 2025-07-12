@@ -23,23 +23,21 @@ class Adviser:
         return self.office_hours
         
     def view_consulting_students(self):
-        print("Consulting Students:")
-        for student in self.consulting_students:
-            print("- {}".format(student))
+        return self.consulting_students  # FIXED
 
     def refer_counselor(self, message):
         print("Referral:", message)
 
 
 # Create adviser instance
-adviser_1 = Adviser( name = "Maricel Panganiban", email = "mpanganiban@up.edu.ph", contact_number = "0912-345-6789", department = "Faculty of Information and Communication Studies", office_hours = "Monday - Friday (7AM to 4PM)", consulting_students = ["Garcia, J.", "Ramos, A.", "Santos, J. M.", "Flores, U.L."])
+adviser_1 = Adviser( name="Maricel Panganiban", email="mpanganiban@up.edu.ph", contact_number="0912-345-6789", department="Faculty of Information and Communication Studies", office_hours="Monday - Friday (7AM to 4PM)", consulting_students= ("Garcia, J." "Ramos, A." "Santos, J. M." "Flores, U.L."))
 
 print("Name:", adviser_1.get_name())
 print("Email:", adviser_1.get_email_address())
 print("Contact Number:", adviser_1.get_contact_number())
 print("Department:", adviser_1.get_department())
 print("Office Hours:", adviser_1.get_office_hours()) 
+print("Consulting Students:", adviser_1.view_consulting_students())
 
 # View consulting students and refer a student
-adviser_1.view_consulting_students()
 adviser_1.refer_counselor("Refer Garcia, J. to Counselor Jasmine Marie")
