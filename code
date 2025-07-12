@@ -15,8 +15,7 @@ class Counselor:
  def update_schedule(self, new_schedule):
      self.schedule = new_schedule
   
-counselor_1= Counselor('Case Scout', "Mon-Fri 2-5PM", "cscout@up.edu.ph")
-counselor_2= Counselor('test user', "MTTH 1-4pm", "testusere@up.edu.ph" )
+counselor_1= Counselor( name = 'Case Scout', scheduke = Mon-Fri 2-5PM, email = cscout@up.edu.ph)
 
 print(counselor_1.get_name())
 print(counselor_1.get_email())
