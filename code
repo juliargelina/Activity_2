@@ -17,9 +17,9 @@ class Counselor:
   
 counselor_1= Counselor( name = 'Case Scout', scheduke = Mon-Fri 2-5PM, email = cscout@up.edu.ph)
 
-print(counselor_1.get_name())
-print(counselor_1.get_email())
-print(counselor_1.get_schedule())
+print("name:", counselor_1.get_name())
+print("email:", counselor_1.get_email())
+print("schedule:", counselor_1.get_schedule())
 
 counselor_1.update_schedule("New schedule: TTH 1-3PM")
 print(counselor_1.get_schedule())
