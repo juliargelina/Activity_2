@@ -1,5 +1,3 @@
-VERSON 1
-
 class Counselor:
  def __init__(self, name, schedule, email):
      self.name = name
@@ -15,7 +13,7 @@ class Counselor:
  def update_schedule(self, new_schedule):
      self.schedule = new_schedule
   
-counselor_1= Counselor( name = 'Case Scout', scheduke = Mon-Fri 2-5PM, email = cscout@up.edu.ph)
+counselor_1= Counselor( name = 'Case Scout', schedule = "Mon-Fri 2-5PM", email = "cscout@up.edu.ph")
 
 print("name:", counselor_1.get_name())
 print("email:", counselor_1.get_email())
