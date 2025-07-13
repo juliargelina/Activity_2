@@ -1,45 +1,45 @@
 class adviser:
- def __init__(self, name, email, contact_number, department, office_hours, consulting_students):
-     self.name = name
-     self.email = None
-     self.contact_number = None
-     self.department = department
-     self.office_hours = office_hours
-     self.consulting_students = consulting_students
+     def __init__(self, name, email, contact_number, department, office_hours, consulting_students):
+          self.name = name
+          self.email = None
+          self.contact_number = None
+          self.department = department
+          self.office_hours = office_hours
+          self.consulting_students = consulting_students
 
 #name
- def get_name(self):
-       return self.name
+     def get_name(self):
+        return self.name
 
 #email
- def get_email(self):
-      return self.email
- def set_email(self, email):  
-       if '@' in email and '.' in email:
-           self.email = email
-       else:
-           raise ValueError("Invalid email address format")
+     def get_email(self):
+        return self.email
+     def set_email(self, email):  
+        if '@' in email and '.' in email:
+            self.email = email
+        else:
+            raise ValueError("Invalid email address format")
  
 #contact number
- def get_contact_number(self):
-       return self.contact_number
- def set_contact_number(self, contact_number):
-       if len(contact_number) == 11 and contact_number.isdigit():
-           self.contact_number = contact_number
-       else:
-           raise ValueError("Invalid mobile number format")
+     def get_contact_number(self):
+        return self.contact_number
+     def set_contact_number(self, contact_number):
+        if len(contact_number) == 11 and contact_number.isdigit():
+            self.contact_number = contact_number
+        else:
+            raise ValueError("Invalid mobile number format")
 
 #department
- def get_department(self):
-       return self.department
+     def get_department(self):
+        return self.department
 
 #office hours
- def get_office_hours(self): 
-       return self.office_hours
+     def get_office_hours(self): 
+        return self.office_hours
 
  #consulting student  
- def get_consulting_students(self):
-       return self.consulting_students
+     def get_consulting_students(self):
+        return self.consulting_students
 
 
 #Tesing
