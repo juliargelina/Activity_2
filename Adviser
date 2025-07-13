@@ -1,62 +1,59 @@
-class Adviser:
-   def __init__(self, name, email, contact_number, department, office_hours, consulting_students):
-       self.name = name
-       self.email = None
-       self.contact_number = None
-       self.department = department
-       self.office_hours = office_hours
-       self.consulting_students = consulting_students  # list of student names
+class adviser:
+ def __init__(self, name, email, contact_number, department, office_hours, consulting_students):
+     self.name = name
+     self.email = None
+     self.contact_number = None
+     self.department = department
+     self.office_hours = office_hours
+     self.consulting_students = consulting_students
 
-
-   def get_name(self):
+#name
+ def get_name(self):
        return self.name
 
-
-   def get_email(self):  # Getter
-       return self.email
-
-
-   def set_email(self, email):  # FIXED indentation and name
+#email
+ def get_email(self):
+      return self.email
+ def set_email(self, email):  
        if '@' in email and '.' in email:
            self.email = email
        else:
            raise ValueError("Invalid email address format")
-
-
-   def get_contact_number(self):
+ 
+#contact number
+ def get_contact_number(self):
        return self.contact_number
-
-
-   def get_department(self):
-       return self.department
-
-
-   def get_office_hours(self): 
-       return self.office_hours
-      
-   def get_consulting_students(self):  # FIXED method name
-       return self.consulting_students
-
-
-   def refer_counselor(self, message):
-       print("Referral:", message)
-
-
-   def set_contact_number(self, contact_number):  # FIXED method name
+ def set_contact_number(self, contact_number):
        if len(contact_number) == 11 and contact_number.isdigit():
            self.contact_number = contact_number
        else:
            raise ValueError("Invalid mobile number format")
 
+#department
+ def get_department(self):
+       return self.department
 
-# Create adviser instance
+#office hours
+ def get_office_hours(self): 
+       return self.office_hours
+
+ #consulting student  
+ def get_consulting_students(self):
+       return self.consulting_students
+
+
+#Tesing
 if __name__ == "__main__":
-   adviser_1 = Adviser( name="Maricel Panganiban", email=None, contact_number=None, department="Faculty of Information and Communication Studies", office_hours="Monday - Friday (7AM to 4PM)", consulting_students=("Garcia, J." "Ramos, A."  "Santos, J. M."  "Flores, U.L."))
+   adviser_1 = adviser(name = "Casey Scout", 
+                       email = None, 
+                       contact_number = None,
+                       department = "Faculty of Information and Communication Studies",
+                       office_hours="Monday - Friday (7AM to 4PM)", 
+                       consulting_students=("Dela Cruz, J.\n\t\tGarcia, J."))
 
-
+   
    print("Name:", adviser_1.get_name())
   
-   # Set email and contact number using setters
    adviser_1.set_email("cscout@up.edu.ph")
    print("Email:", adviser_1.get_email())
   
@@ -66,8 +63,3 @@ if __name__ == "__main__":
    print("Department:", adviser_1.get_department())
    print("Office Hours:", adviser_1.get_office_hours())
    print("Consulting Students:", adviser_1.get_consulting_students())
-
-
-   # View consulting students and refer a student
-   adviser_1.refer_counselor("Refer Garcia, J. to Counselor Jasmine Marie")
-
