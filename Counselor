@@ -1,14 +1,14 @@
 class Counselor:
     '''
-     Represents a student in the Student Counseling Data Management system
+     Represents a counselor in the Student Counseling Data Management system
     '''
 
  def __init__(self, name, email, schedule, assigned_students):
     ''' 
-      initialize a new instance of the Student Class. 
+      initialize a new instance of the Counselor Class. 
       Parameters: 
-      Name = full name of the student
-      Schedule = Schedule with date and time of the student
+      Name = full name of the counselor
+      Schedule = Schedule with date and time of the counselor
       Assigned Student = names of students who will handle the counselor
     '''
      self.name = name
@@ -18,15 +18,15 @@ class Counselor:
 
 #self
  def get_name(self):
-     ''' Returns the full name of the students '''
+     ''' Returns the full name of the counselor. '''
       return self.name
  
  #email
  def get_email(self):
-     ''' Returns the email address for the students. '''
+     ''' Returns the email address for the counselor. '''
       return self.email
  def set_email(self, email):  
-     ''' Set the email address for the students. 
+     ''' Set the email address for the counselor. 
          Validates the email format before setting it.
      '''
        if '@' in email and '.' in email:
@@ -36,15 +36,15 @@ class Counselor:
  
 #schedule
  def get_schedule(self):
-     ''' Returns the schedule for the students '''
+     ''' Returns the schedule for the counselor. '''
       return self.schedule
  def update_schedule(self, new_schedule):
-     ''' update the schedule for the students '''
+     ''' update the schedule for the counselor. '''
      self.schedule = new_schedule
 
 #assigned students
  def get_assigned_students(self):
-     ''' Assigned students. '''
+     ''' Assigned students to the counselor. '''
       return self.assigned_students
  def update_assigned_students(self, new_assigned_students):
      ''' Update the assigned students. '''
