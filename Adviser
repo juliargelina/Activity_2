@@ -1,5 +1,11 @@
 class adviser:
+     '''
+     Represents a Adviser in the Student Counseling Data Management system
+    '''
      def __init__(self, name, email, contact_number, department, office_hours, consulting_students):
+     '''
+     
+     '''
           self.name = name
           self.email = None
           self.contact_number = None
@@ -9,12 +15,17 @@ class adviser:
 
 #name
      def get_name(self):
+     ''' Return the full name of the Adviser. '''
         return self.name
 
 #email
      def get_email(self):
+     ''' Return the email of the adviser. '''
         return self.email
      def set_email(self, email):  
+     ''' Set email for the adviser. 
+        Validates the mobile number format before setting in. 
+     '''
         if '@' in email and '.' in email:
             self.email = email
         else:
@@ -22,8 +33,13 @@ class adviser:
  
 #contact number
      def get_contact_number(self):
+      ''' Return the contact number of the adviser. '''
         return self.contact_number
      def set_contact_number(self, contact_number):
+     ''' set the contact number for the adviser.
+     Validates the mobile number format before setting in.
+     The contact number shoudl be 11 digit long and numertic.
+     '''
         if len(contact_number) == 11 and contact_number.isdigit():
             self.contact_number = contact_number
         else:
@@ -31,14 +47,17 @@ class adviser:
 
 #department
      def get_department(self):
+     ''' Return the department of the adviser. '''
         return self.department
 
 #office hours
      def get_office_hours(self): 
+     ''' Return the office hourse of the adviser. '''
         return self.office_hours
 
  #consulting student  
      def get_consulting_students(self):
+     ''' Return consulting students of the adviser. '''
         return self.consulting_students
 
 
