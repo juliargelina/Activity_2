@@ -34,22 +34,23 @@ class Counselor:
 #Testing
 
     #nilagay info
-counselor_1= Counselor( 
-    name = 'Casey Scout', 
-    schedule = "Mon-Fri 2-5PM", 
-    email = None,
-    assigned_students = "Dela Cruz, J.\n\t\tGarcia, J.\n\t\tRamos, A.\n\t\tSantos J. M.")
+if __name__ == "__main__":
+    counselor_1= Counselor( 
+        name = 'Casey Scout', 
+        schedule = "Mon-Fri 2-5PM", 
+        email = None,
+        assigned_students = "Dela Cruz, J.\n\t\tGarcia, J.\n\t\tRamos, A.\n\t\tSantos J. M.")
 
-    #printing yung mga di pa updated
-print("Name:", counselor_1.get_name())
-print("Schedule:", counselor_1.get_schedule())
-print("Assigned Students:", counselor_1.get_assigned_students())
-counselor_1.set_email("cscout@up.edu.ph")
-print("email:", counselor_1.get_email())
+        #printing yung mga di pa updated
+    print("Name:", counselor_1.get_name())
+    print("Schedule:", counselor_1.get_schedule())
+    print("Assigned Students:", counselor_1.get_assigned_students())
+    counselor_1.set_email("cscout@up.edu.ph")
+    print("email:", counselor_1.get_email())
 
-    #printing yung mga updated
-counselor_1.update_schedule("TTH 1-3PM")
-print("\nUpdated Schedule:",counselor_1.get_schedule())
+        #printing yung mga updated
+    counselor_1.update_schedule("TTH 1-3PM")
+    print("\nUpdated Schedule:",counselor_1.get_schedule())
 
-counselor_1.update_assigned_students("Dela Cruz, J.\n\t\t\tGarcia, J.")
-print("Updated Assigned Students:",counselor_1.get_assigned_students())
+    counselor_1.update_assigned_students("Dela Cruz, J.\n\t\t\tGarcia, J.")
+    print("Updated Assigned Students:",counselor_1.get_assigned_students())
