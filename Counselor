@@ -1,57 +1,55 @@
 class Counselor:
- def __init__(self, name, schedule, email):
+ def __init__(self, name, email, schedule, assigned_students):
      self.name = name
-     self.schedule = schedule
-     self.email = email
-
- def get_name(self):
-      return self.name
- def get_email(self):
-      return self.email
- def get_schedule(self):
-      return self.schedule
- def update_schedule(self, new_schedule):
-     self.schedule = new_schedule
-  
-counselor_1= Counselor( name = 'Case Scout', schedule = "Mon-Fri 2-5PM", email = "cscout@up.edu.ph")
-
-print("name:", counselor_1.get_name())
-print("email:", counselor_1.get_email())
-print("schedule:", counselor_1.get_schedule())
-
-counselor_1.update_schedule("New schedule: TTH 1-3PM")
-print(counselor_1.get_schedule())
------------------------------------------------------------------------
-
-NEW VERSION
-
-class Counselor:
- def __init__(self, name, schedule, email):
-     self.name = name
-     self.schedule = schedule
      self.email = None
+     self.schedule = schedule
+     self.assigned_students = assigned_students
 
+#self
  def get_name(self):
       return self.name
+ 
+ #email
  def get_email(self):
       return self.email
- def set_email(self, email):  # FIXED indentation and name
+ def set_email(self, email):  
        if '@' in email and '.' in email:
            self.email = email
        else:
            raise ValueError("Invalid email address format")
+ 
+#schedule
  def get_schedule(self):
       return self.schedule
  def update_schedule(self, new_schedule):
      self.schedule = new_schedule
-  
-counselor_1= Counselor( name = 'Case Scout', schedule = "Mon-Fri 2-5PM", email = None)
 
-print("name:", counselor_1.get_name())
-print("schedule:", counselor_1.get_schedule())
+#assigned students
+ def get_assigned_students(self):
+      return self.assigned_students
+ def update_assigned_students(self, new_assigned_students):
+     self.assigned_students = new_assigned_students
 
+
+#Testing
+
+    #nilagay info
+counselor_1= Counselor( 
+    name = 'Casey Scout', 
+    schedule = "Mon-Fri 2-5PM", 
+    email = None,
+    assigned_students = "Dela Cruz, J.\n\t\tGarcia, J.\n\t\tRamos, A.\n\t\tSantos J. M.")
+
+    #printing yung mga di pa updated
+print("Name:", counselor_1.get_name())
+print("Schedule:", counselor_1.get_schedule())
+print("Assigned Students:", counselor_1.get_assigned_students())
 counselor_1.set_email("cscout@up.edu.ph")
 print("email:", counselor_1.get_email())
 
-counselor_1.update_schedule("New schedule: TTH 1-3PM")
-print(counselor_1.get_schedule())
+    #printing yung mga updated
+counselor_1.update_schedule("TTH 1-3PM")
+print("\nUpdated Schedule:",counselor_1.get_schedule())
+
+counselor_1.update_assigned_students("Dela Cruz, J.\n\t\t\tGarcia, J.")
+print("Updated Assigned Students:",counselor_1.get_assigned_students())
