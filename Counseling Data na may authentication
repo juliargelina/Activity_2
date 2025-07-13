@@ -1,0 +1,115 @@
+class counselingdata:
+    def __init__(self, session_id, session_date, service, session_status, counselor_name, advisor_name, student_name, session_notes, follow_up, next_appointment):
+        self.session_id = None  
+        self.set_session_id(session_id) 
+        self.session_date = session_date
+        self.service = service
+        self.session_status = session_status
+        self.counselor_name = counselor_name
+        self.advisor_name = advisor_name
+        self.student_name = student_name
+        self.session_notes = session_notes
+        self.follow_up = follow_up
+        self.next_appointment = next_appointment
+
+    # session id
+    def get_session_id(self):
+        return self.session_id
+
+    def set_session_id(self, session_id):
+        if session_id.startswith("CD") and len(session_id) == 8 and session_id[2:].isdigit():
+            self.session_id = session_id
+        else:
+            raise ValueError("Invalid Session ID")
+
+    # session date
+    def get_session_date(self):
+        return self.session_date
+
+    # session service
+    def get_service(self):
+        return self.service
+
+    # session status
+    def get_session_status(self):
+        return self.session_status
+
+    def update_session_status(self, new_session_status):
+        self.session_status = new_session_status
+
+    # counselor
+    def get_counselor_name(self):  # corrected spelling from 'councelor'
+        return self.counselor_name
+
+    # advisor
+    def get_advisor_name(self):
+        return self.advisor_name  # FIXED: was returning counselor_name by mistake
+
+    # student
+    def get_student_name(self):
+        return self.student_name  # FIXED: was returning counselor_name
+
+    # session notes
+    def view_session_notes(self):
+        return self.session_notes
+
+    # follow up
+    def get_follow_up(self):
+        return self.follow_up
+
+    def update_follow_up(self, new_follow_up):
+        self.follow_up = new_follow_up
+
+    # next appointment
+    def get_next_appointment(self):
+        return self.next_appointment
+
+    def update_next_appointment(self, updated_next_appointment):
+        self.next_appointment = updated_next_appointment
+
+
+# TESTING
+if __name__ == "__main__":
+    counselingdata_1 = counselingdata(
+        session_id = "CD725002",
+        session_date = "July 07 2025 (2PM to 3PM)",
+        service = "Individual Assessment",
+        session_status = "Waiting",
+        counselor_name = "Casey Scout",
+        advisor_name = "Maricel Panganiban",
+        student_name = "Juan A. Dela Cruz",
+        session_notes = None,
+        follow_up = "Not Applicable",
+        next_appointment = "Not Applicable"
+    )
+
+    user_role = input("Enter your role: ")
+
+    if user_role == "counselor" or "advisor" or "admin":
+        # di pa updated
+        print("Session ID:", counselingdata_1.get_session_id())
+        print("Session Date:", counselingdata_1.get_session_date())
+        print("Type of Service:", counselingdata_1.get_service())
+        print("Session Status:", counselingdata_1.get_session_status())
+        print("Counselor Name:", counselingdata_1.get_counselor_name())
+        print("Advisor Name:", counselingdata_1.get_advisor_name())
+        print("Student Name:", counselingdata_1.get_student_name())
+        print("Follow Up:", counselingdata_1.get_follow_up())
+        print("Next Appointment:", counselingdata_1.get_next_appointment())
+
+        # Umga updated na
+        print("\nSESSION UPDATE")
+        counselingdata_1.update_session_status("Ongoing")
+        print("Session Status:", counselingdata_1.get_session_status())
+
+        counselingdata_1.session_notes = "Student expressed feelings of burnout because of both school and work schedules."
+        print("Session Notes:", counselingdata_1.view_session_notes())
+
+        counselingdata_1.update_follow_up("Yes")
+        print("Follow Up:", counselingdata_1.get_follow_up())
+
+        counselingdata_1.update_next_appointment("July 09 2025 (3PM to 4PM)")
+        print("Next Appointment:", counselingdata_1.get_next_appointment())
+   
+    else:
+        print("Not Valid user")
