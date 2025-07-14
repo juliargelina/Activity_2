@@ -1,89 +1,94 @@
-class adviser:
-     '''
-     Represents a Adviser in the Student Counseling Data Management system
+class Adviser:
     '''
-     def __init__(self, name, email, contact_number, department, office_hours, consulting_students):
-     '''
-     Initialize a new instance of the Adviser class.
-     Parameters: 
-     name = Full name of the adviser
-     department = the Department of the adviser
-     office_hours = The working hours of the adviser
-     consulting_students = the names of the students who will consult. 
-     '''
-          self.name = name
-          self.email = None
-          self.contact_number = None
-          self.department = department
-          self.office_hours = office_hours
-          self.consulting_students = consulting_students
+    Represents an Adviser in the Student Counseling Data Management system
+    '''
+    def __init__(self, name, email, contact_number, department, office_hours, consulting_students):
+        '''
+        Initialize a new instance of the Adviser class.
+        Parameters: 
+        name = Full name of the adviser
+        department = the Department of the adviser
+        office_hours = The working hours of the adviser
+        consulting_students = the names of the students who will consult. 
+        '''
+        self.name = name
+        self.email = None  # placeholder for email
+        self.contact_number = None  # placeholder for contact number
+        self.department = department
+        self.office_hours = office_hours
+        self.consulting_students = consulting_students
 
-#name
-     def get_name(self):
-     ''' Return the full name of the Adviser. '''
+    # Name
+    def get_name(self):
+        ''' Return the full name of the Adviser. '''
         return self.name
 
-#email
-     def get_email(self):
-     ''' Return the email of the adviser. '''
+    # Email
+    def get_email(self):
+        ''' Return the email of the adviser. '''
         return self.email
-     def set_email(self, email):  
-     ''' Set email for the adviser. 
-        Validates the mobile number format before setting in. 
-     '''
+
+    def set_email(self, email):  
+        ''' 
+        Set email for the adviser. 
+        Validates the email format before setting it. 
+        '''
         if '@' in email and '.' in email:
             self.email = email
         else:
             raise ValueError("Invalid email address format")
- 
-#contact number
-     def get_contact_number(self):
-      ''' Return the contact number of the adviser. '''
+
+    # Contact Number
+    def get_contact_number(self):
+        ''' Return the contact number of the adviser. '''
         return self.contact_number
-     def set_contact_number(self, contact_number):
-     ''' set the contact number for the adviser.
-     Validates the mobile number format before setting in.
-     The contact number shoudl be 11 digit long and numertic.
-     '''
+
+    def set_contact_number(self, contact_number):
+        '''
+        Set the contact number for the adviser.
+        Validates the mobile number format before setting it.
+        The contact number should be 11 digits long and numeric.
+        '''
         if len(contact_number) == 11 and contact_number.isdigit():
             self.contact_number = contact_number
         else:
             raise ValueError("Invalid mobile number format")
 
-#department
-     def get_department(self):
-     ''' Return the department of the adviser. '''
+    # Department
+    def get_department(self):
+        ''' Return the department of the adviser. '''
         return self.department
 
-#office hours
-     def get_office_hours(self): 
-     ''' Return the office hourse of the adviser. '''
+    # Office Hours
+    def get_office_hours(self): 
+        ''' Return the office hours of the adviser. '''
         return self.office_hours
 
- #consulting student  
-     def get_consulting_students(self):
-     ''' Return consulting students of the adviser. '''
+    # Consulting Students  
+    def get_consulting_students(self):
+        ''' Return consulting students of the adviser. '''
         return self.consulting_students
 
 
-#Tesing
+# Testing
 if __name__ == "__main__":
-   adviser_1 = adviser(name = "Casey Scout", 
-                       email = None, 
-                       contact_number = None,
-                       department = "Faculty of Information and Communication Studies",
-                       office_hours="Monday - Friday (7AM to 4PM)", 
-                       consulting_students=("Dela Cruz, J.\n\t\tGarcia, J."))
+    adviser_1 = Adviser(
+        name="Casey Scout", 
+        email=None, 
+        contact_number=None,
+        department="Faculty of Information and Communication Studies",
+        office_hours="Monday - Friday (7AM to 4PM)", 
+        consulting_students="Dela Cruz, J.\n\t\tGarcia, J."
+    )
 
-   
-   print("Name:", adviser_1.get_name())
-  
-   adviser_1.set_email("cscout@up.edu.ph")
-   print("Email:", adviser_1.get_email())
-  
-   adviser_1.set_contact_number("09212023775")
-   print("Contact Number:", adviser_1.get_contact_number())
-  
-   print("Department:", adviser_1.get_department())
-   print("Office Hours:", adviser_1.get_office_hours())
-   print("Consulting Students:", adviser_1.get_consulting_students())
+    print("Name:", adviser_1.get_name())
+
+    adviser_1.set_email("cscout@up.edu.ph")
+    print("Email:", adviser_1.get_email())
+
+    adviser_1.set_contact_number("09212023775")
+    print("Contact Number:", adviser_1.get_contact_number())
+
+    print("Department:", adviser_1.get_department())
+    print("Office Hours:", adviser_1.get_office_hours())
+    print("Consulting Students:", adviser_1.get_consulting_students())
