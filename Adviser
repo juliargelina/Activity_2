@@ -4,7 +4,12 @@ class adviser:
     '''
      def __init__(self, name, email, contact_number, department, office_hours, consulting_students):
      '''
-     
+     Initialize a new instance of the Adviser class.
+     Parameters: 
+     name = Full name of the adviser
+     department = the Department of the adviser
+     office_hours = The working hours of the adviser
+     consulting_students = the names of the students who will consult. 
      '''
           self.name = name
           self.email = None
