@@ -1,0 +1,84 @@
+class Counselor:
+    '''
+     Represents a counselor in the Student Counseling Data Management system
+    '''
+
+    def __init__(self, name, email, schedule, assigned_students):
+        ''' 
+        initialize a new instance of the Counselor Class. 
+        Parameters: 
+        Name = full name of the counselor
+        Schedule = Schedule with date and time of the counselor
+        Assigned Student = names of students who will handle the counselor
+        '''
+        self.name = name
+        self.__email = None
+        self.schedule = schedule
+        self._assigned_students = assigned_students
+        
+        if email:
+            self.__set_email(email)
+        
+    #self
+    def get_name(self):
+        ''' Returns the full name of the counselor. '''
+        return self.name
+    
+    #email
+    def __get_email(self):
+        ''' Returns the email address for the counselor. '''
+        return self.__email
+    
+    def __set_email(self, email):  
+        ''' Set the email address for the counselor. 
+            Validates the email format before setting it.
+        '''
+        if '@' in email and '.' in email:
+            self.__email = email
+        else:
+            raise ValueError("Invalid email address format")
+        
+    #schedule
+    def get_schedule(self):
+        ''' Returns the schedule for the counselor. '''
+        return self.schedule
+    
+    def update_schedule(self, new_schedule):
+        ''' update the schedule for the counselor. '''
+        self.schedule = new_schedule
+
+    #assigned students
+    def get_assigned_students(self):
+        ''' Assigned students to the counselor. '''
+        return self._assigned_students
+    
+    def update_assigned_students(self, new_assigned_students):
+        ''' Update the assigned students. '''
+        self._assigned_students = new_assigned_students
+
+
+# Testing
+
+if __name__ == "__main__":
+    counselor_1 = Counselor( 
+        name='Casey Scout', 
+        schedule="Mon-Fri 2-5PM", 
+        email=None,
+        assigned_students="Dela Cruz, J.\n\t\tGarcia, J.\n\t\tRamos, A.\n\t\tSantos J. M."
+    )
+
+    # Printing initial information
+    print("Name:", counselor_1.get_name())
+    print("Schedule:", counselor_1.get_schedule())
+    print("Assigned Students:", counselor_1.get_assigned_students())
+    
+    # Setting email correctly
+    counselor_1._Counselor__set_email("cscout@up.edu.ph")  # Accessing private method correctly
+    print("Email:", counselor_1._Counselor__get_email())  # Accessing private method correctly
+
+    # Printing updated information
+    counselor_1.update_schedule("TTH 1-3PM")
+    print("\nUpdated Schedule:", counselor_1.get_schedule())
+
+    counselor_1.update_assigned_students("Dela Cruz, J.\n\t\t\tGarcia, J.")
+    print("Updated Assigned Students:", counselor_1.get_assigned_students())
