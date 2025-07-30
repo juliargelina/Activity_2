@@ -1,156 +1,71 @@
-class CounselingData:
-    ''' 
-    A class that stores and manages counseling session records.
-    '''
-
+class counselingdata:
+    
     def __init__(self, session_id, session_date, service, session_status, counselor_name, advisor_name, student_name, session_notes, follow_up, next_appointment):
-        '''
-        Initializes a new CounselingData object with the given session details.
-        '''
-        self.__session_id = None  # Set via setter
-        self.__session_date = session_date
-        self.__service = service
-        self.__session_status = session_status
-        self._counselor_name = counselor_name
-        self._advisor_name = advisor_name
-        self._student_name = student_name
-        self._session_notes = session_notes
-        self.__follow_up = follow_up
-        self.__next_appointment = next_appointment
 
-        self.set_session_id(session_id)  # Validate and assign
+        #Public
+        self.session_id = session_id
 
-    # Session ID
+        #Private  
+        self.__counselor_name = counselor_name
+        self.__advisor_name = advisor_name
+        self.__student_name = student_name
+        self.__session_notes = session_notes
+
+
+        #Protected
+        self._session_date = session_date
+        self._service = service
+        self._session_status = session_status
+        self._follow_up = follow_up
+        self._next_appointment = next_appointment
+
+
+#PUBLIC
     def get_session_id(self):
-        """Returns the session ID."""
-        return self.__session_id
+        return self.session_id
 
     def set_session_id(self, session_id):
-        """Sets and validates the session ID."""
         if session_id.startswith("CD") and len(session_id) == 8 and session_id[2:].isdigit():
-            self.__session_id = session_id
+            self.session_id = session_id
         else:
-            raise ValueError("Invalid Session ID: must start with 'CD' and followed by 6 digits.")
+            raise ValueError("Invalid Session ID")
 
-    # Session Date
-    def get_session_date(self):
-        """Returns the session date."""
-        return self.__session_date
 
-    def update_session_date(self, new_date):
-        """Updates the session date."""
-        self.__session_date = new_date
+#PRIVATE
 
-    # Service Type
-    def get_service(self):
-        """Returns the type of counseling service."""
-        return self.__service
+    def get_counselor_name(self):  
+        return self.__counselor_name
 
-    def update_service(self, new_service):
-        """Updates the type of service."""
-        self.__service = new_service
-
-    # Session Status
-    def get_session_status(self):
-        """Returns the current status of the session."""
-        return self.__session_status
-
-    def update_session_status(self, new_status):
-        """Updates the session status."""
-        self.__session_status = new_status
-
-    # Counselor Name
-    def get_counselor_name(self):
-        """Returns the name of the counselor."""
-        return self._counselor_name
-
-    def update_counselor_name(self, new_name):
-        """Updates the counselor's name."""
-        self._counselor_name = new_name
-
-    # Advisor Name
     def get_advisor_name(self):
-        """Returns the advisor's name."""
-        return self._advisor_name
+        return self.__advisor_name  
 
-    def update_advisor_name(self, new_name):
-        """Updates the advisor's name."""
-        self._advisor_name = new_name
-
-    # Student Name
     def get_student_name(self):
-        """Returns the name of the student."""
-        return self._student_name
+        return self.__student_name  
 
-    def update_student_name(self, new_name):
-        """Updates the student’s name."""
-        self._student_name = new_name
-
-    # Session Notes
     def view_session_notes(self):
-        """Returns session notes."""
-        return self._session_notes
+        return self.__session_notes
 
-    def update_session_notes(self, new_notes):
-        """Updates the session notes."""
-        self._session_notes = new_notes
+#PROTECTED
+    def get_session_date(self):
+        return self._session_date
 
-    # Follow-up
+    def get_service(self):
+        return self._service
+
+    def get_session_status(self):
+        return self._session_status
+
+    def update_session_status(self, new_session_status):
+        self._session_status = new_session_status
+
     def get_follow_up(self):
-        """Returns whether a follow-up is required."""
-        return self.__follow_up
+        return self._follow_up
 
     def update_follow_up(self, new_follow_up):
-        """Updates follow-up recommendation."""
-        self.__follow_up = new_follow_up
-
-    # Next Appointment
+        self._follow_up = new_follow_up
+    
     def get_next_appointment(self):
-        """Returns the next appointment date/time."""
-        return self.__next_appointment
+        return self._next_appointment
 
     def update_next_appointment(self, updated_next_appointment):
-        """Updates the next appointment date/time."""
-        self.__next_appointment = updated_next_appointment
-
-
-# TESTING
-if __name__ == "__main__":
-    counseling_data_1 = CounselingData(
-        session_id="CD725002",
-        session_date="July 07 2025 (2PM to 3PM)",
-        service="Individual Assessment",
-        session_status="Waiting",
-        counselor_name="Casey Scout",
-        advisor_name="Maricel Panganiban",
-        student_name="Juan A. Dela Cruz",
-        session_notes=None,
-        follow_up="Not Applicable",
-        next_appointment="Not Applicable"
-    )
-
-    # Not Updated
-    print("=== ORIGINAL DATA ===")
-    print("Session ID:", counseling_data_1.get_session_id())
-    print("Session Date:", counseling_data_1.get_session_date())
-    print("Service:", counseling_data_1.get_service())
-    print("Session Status:", counseling_data_1.get_session_status())
-    print("Counselor Name:", counseling_data_1.get_counselor_name())
-    print("Advisor Name:", counseling_data_1.get_advisor_name())
-    print("Student Name:", counseling_data_1.get_student_name())
-    print("Follow Up:", counseling_data_1.get_follow_up())
-    print("Next Appointment:", counseling_data_1.get_next_appointment())
-
-    # Updated
-    print("\n=== UPDATED DATA ===")
-    counseling_data_1.update_session_status("Ongoing")
-    print("Session Status:", counseling_data_1.get_session_status())
-
-    counseling_data_1.update_session_notes("Student expressed feelings of burnout because of both school and work schedules.")
-    print("Session Notes:", counseling_data_1.view_session_notes())
-
-    counseling_data_1.update_follow_up("Yes")
-    print("Follow Up:", counseling_data_1.get_follow_up())
-
-    counseling_data_1.update_next_appointment("July 09 2025 (3PM to 4PM)")
-    print("Next Appointment:", counseling_data_1.get_next_appointment())
+        self._next_appointment = updated_next_appointment
