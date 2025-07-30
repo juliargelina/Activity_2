@@ -1,0 +1,69 @@
+'''Test 2 May Public attribute (extra) as a test lang if magpriprint 
+yung public tapos error sa private'''
+
+'''ginamit yung __/_ to print (based sa module) instead of get-set access modifiers '''
+
+class counselor:
+     def __init__(self, counselor_id, name, email, schedule, assigned_students):
+          
+          #public
+          self.counselor_id = counselor_id
+
+          #private
+          self.__name = name
+          self.__email = None
+          
+          #protected
+          self._schedule = schedule
+          self._assigned_students = assigned_students
+
+#Public
+#counselor id
+
+     def get_counselor_id(self):
+        return self.counselor_id
+
+#PRIVATE
+#name
+     def get_name(self):
+        return self.__name
+
+#email
+     def get_email(self):
+        return self.__email
+     def set_email(self, email):  
+        if '@' in email and '.' in email:
+            self.__email = email
+        else:
+            raise ValueError("Invalid email address format")
+
+#Protected
+     def get_schedule(self):
+        return self._schedule
+     
+     def get_assigned_students(self):
+         return self._assigned_students
+
+
+#TESTING
+    #RESULT: Dapat di kita private attributes 
+if __name__ == "__main__":
+   counselor_1 = counselor( counselor_id="2022-12454",
+        name='Casey Scout', 
+        email="cscout@up.edu.ph",  # Initialize email correctly
+        schedule="Mon-Fri 2-5PM", 
+        assigned_students="Dela Cruz, J.\n\t\tGarcia, J.\n\t\tRamos, A.\n\t\tSantos J. M."
+    )
+
+   #PUBLIC
+   print("Counselor ID:", counselor_1.counselor_id)
+
+   #PRIVATE
+   print("Name:", counselor_1.__name)
+  
+   counselor_1.set_email("cscout@up.edu.ph")
+   print("Email:", counselor_1.__email)
+  
+   #PROTECTED
+   print("Schedule:", counselor_1._schedule)
+   print("Assigned Students:", counselor_1._assigned_students)
