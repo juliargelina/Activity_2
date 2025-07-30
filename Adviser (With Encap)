@@ -2,7 +2,7 @@ class Adviser:
     '''
     Represents an Adviser in the Student Counseling Data Management system
     '''
-    def __init__(self, name, email, contact_number, department, office_hours, consulting_students):
+    def __init__(self, name, email, contact_number, department, office_hours, advisor_id, consulting_students):
         '''
         Initialize a new instance of the Adviser class.
         Parameters: 
@@ -11,17 +11,22 @@ class Adviser:
         office_hours = The working hours of the adviser
         consulting_students = the names of the students who will consult. 
         '''
-        self.name = name
+        self.id = advisor_id 
+        self.__name = name
         self.__email = None  # placeholder for email
-        self._contact_number = None  # placeholder for contact number
-        self._department = department
-        self.office_hours = office_hours
+        self.__contact_number = None  # placeholder for contact number
+        self.__department = department
+        self.__office_hours = office_hours
         self.__consulting_students = consulting_students
 
+    # ID
+    def get_advisor_id(self):
+        return self.id
+    
     # Name
     def get_name(self):
         ''' Return the full name of the Adviser. '''
-        return self.name
+        return self.__name  # Corrected from self.name to self.__name
 
     # Email
     def get_email(self):
@@ -41,7 +46,7 @@ class Adviser:
     # Contact Number
     def get_contact_number(self):
         ''' Return the contact number of the adviser. '''
-        return self._contact_number
+        return self.__contact_number  # Corrected from self._contact_number to self.__contact_number
 
     def set_contact_number(self, contact_number):
         '''
@@ -50,29 +55,30 @@ class Adviser:
         The contact number should be 11 digits long and numeric.
         '''
         if len(contact_number) == 11 and contact_number.isdigit():
-            self._contact_number = contact_number
+            self.__contact_number = contact_number  # Corrected from self._contact_number to self.__contact_number
         else:
             raise ValueError("Invalid mobile number format")
 
     # Department
     def get_department(self):
         ''' Return the department of the adviser. '''
-        return self._department
+        return self.__department  # Corrected from self._department to self.__department
 
     # Office Hours
     def get_office_hours(self): 
         ''' Return the office hours of the adviser. '''
-        return self.office_hours
+        return self.__office_hours  # Corrected from self.office_hours to self.__office_hours
 
     # Consulting Students  
     def get_consulting_students(self):
         ''' Return consulting students of the adviser. '''
-        return self.__consulting_students
+        return self.__consulting_students  # Corrected from self.__consulting_students to self.__consulting_students
 
 
 # Testing
 if __name__ == "__main__":
     adviser_1 = Adviser(
+        advisor_id= "2022-034945",
         name="Casey Scout", 
         email=None, 
         contact_number=None,
@@ -81,6 +87,7 @@ if __name__ == "__main__":
         consulting_students="Dela Cruz, J.\n\t\tGarcia, J."
     )
 
+    print ("Advisor ID:", adviser_1.get_advisor_id())
     print("Name:", adviser_1.get_name())
 
     adviser_1.set_email("cscout@up.edu.ph")
