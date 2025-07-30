@@ -1,197 +1,71 @@
 class counselingdata:
-    ''' 
-    This initiates a class for the counselingdata wherein it will contain the 
-    session-related information and manage the organization and access of counseling records.
-    '''
     
     def __init__(self, session_id, session_date, service, session_status, counselor_name, advisor_name, student_name, session_notes, follow_up, next_appointment):
 
-        '''
-        This initializes the details needed for the counseling session with parameters, including attributes such as:
-        session_id = a unique code given to each session so that it can be easily identified and tracked
-        service = type of service provided
-        session_status = reveals if the session is completed, ongoing, waiting, not started, or rescheduled
-        counselor_name = name of the counselor
-        advisor_name = name of the adviser
-        student_name = name of the attending student
-        session_notes = the counselor’s notes written during the session
-        follow_up = indicates whether the student will need another session
-        next_appointment = the schedule for the follow-up session
-        '''
- 
-        self.session_id = None  
-        self.session_date = session_date
-        self.service = service
-        self.session_status = session_status
-        self.counselor_name = counselor_name
-        self.advisor_name = advisor_name
-        self.student_name = student_name
-        self.session_notes = session_notes
-        self.follow_up = follow_up
-        self.next_appointment = next_appointment
+        #Public
+        self.session_id = session_id
 
-    
-    ''' 
-    The next following block of code defines the methods within the counselingdata class to update the counseling information. 
-    It is worth noting that we used "#" comments to organize the code based on each session detail.
-    '''
+        #Private  
+        self.__counselor_name = counselor_name
+        self.__advisor_name = advisor_name
+        self.__student_name = student_name
+        self.__session_notes = session_notes
 
-    # session id
+
+        #Protected
+        self._session_date = session_date
+        self._service = service
+        self._session_status = session_status
+        self._follow_up = follow_up
+        self._next_appointment = next_appointment
+
+
+#PUBLIC
     def get_session_id(self):
         return self.session_id
-    '''
-    This returns the session ID when asked.
-    '''
+
     def set_session_id(self, session_id):
         if session_id.startswith("CD") and len(session_id) == 8 and session_id[2:].isdigit():
             self.session_id = session_id
         else:
             raise ValueError("Invalid Session ID")
-    '''
-    This authenticates and helps track each counseling session, making it easier to distinguish one session from another.  
-    To validate it, the function first checks if the input starts with "CD", which stands for "Counseling Data".  
-    Then, it checks if the entire ID is exactly 8 characters long (2 letters followed by 6 digits).  
-    Finally, it verifies that the characters after the first two characters, CD, are all valid numbers.
-    '''
 
-    # session date
-    def get_session_date(self):
-        return self.session_date
-    ''' 
-    This returns the session date. 
-    '''
 
-    # session service
-    def get_service(self):
-        return self.service
-    ''' 
-    This returns the type of service. 
-    '''
+#PRIVATE
 
-    # session status
-    def get_session_status(self):
-        return self.session_status
-    ''' 
-    This returns the current status of the session. 
-    '''
-    def update_session_status(self, new_session_status):
-        self.session_status = new_session_status
-    ''' 
-    This updates the session status when it is changed by assigning a new value to it.
-    '''
-
-    # counselor
     def get_counselor_name(self):  
-        return self.counselor_name
-    ''' 
-    This returns the name of the counselor for the session. 
-    '''
+        return self.__counselor_name
 
-    # advisor
     def get_advisor_name(self):
-        return self.advisor_name  
-    ''' 
-    This returns the name of the advisor of the consulting student of the session. 
-    '''
+        return self.__advisor_name  
 
-    # student
     def get_student_name(self):
-        return self.student_name  
-    ''' 
-    This returns the name of the student for the session. 
-    '''
+        return self.__student_name  
 
-    # session notes
     def view_session_notes(self):
-        return self.session_notes
-    ''' 
-    This returns the notes of the conselor during the session. 
-    '''
+        return self.__session_notes
 
-    # follow up
+#PROTECTED
+    def get_session_date(self):
+        return self._session_date
+
+    def get_service(self):
+        return self._service
+
+    def get_session_status(self):
+        return self._session_status
+
+    def update_session_status(self, new_session_status):
+        self._session_status = new_session_status
+
     def get_follow_up(self):
-        return self.follow_up
-    ''' 
-    This returns if the student needs a follow up session
-    '''
+        return self._follow_up
+
     def update_follow_up(self, new_follow_up):
-        self.follow_up = new_follow_up
-    ''' 
-    This updates the follow-up status based on whether the counselor determines that 
-    the student needs a follow-up session, by assigning a new value to it.
-    '''
+        self._follow_up = new_follow_up
     
-    # next appointment
     def get_next_appointment(self):
-        return self.next_appointment
-    ''' 
-    This returns the newly updated schedule for the next appointment if 
-    the student needs a follow-up session.
-    '''
+        return self._next_appointment
+
     def update_next_appointment(self, updated_next_appointment):
-        self.next_appointment = updated_next_appointment
-    ''' 
-    This updates the appointment schedule based on the follow-up 
-    recommendation provided by the counselor.
-    '''
-
-
-'''
-The following block of code is used to test whether the functions work as expected. 
-It includes test instances where values are updated during the session. 
-To make the printed output easier to understand, the code is organized into 
-“Not Updated” and “Updated” sections to clearly show the changes.
-'''
-
-# TESTING
-if __name__ == "__main__":
-    '''
-    This condition ensures that the test code runs only when the file is executed directly.
-    '''
-    counselingdata_1 = counselingdata(
-        session_id = "CD725002",
-        session_date = "July 07 2025 (2PM to 3PM)",
-        service = "Individual Assessment",
-        session_status = "Waiting",
-        counselor_name = "Casey Scout",
-        advisor_name = "Maricel Panganiban",
-        student_name = "Juan A. Dela Cruz",
-        session_notes = None,
-        follow_up = "Not Applicable",
-        next_appointment = "Not Applicable"
-    )
-    '''
-    The code above creates an instance of the counselingdata class with specific values, 
-    which are then stored as properties of the object.
-    '''
-
-    #Not Updated
-    '''
-    This section of the code is for testing the output of the unchanged details
-    '''
-    print("Session ID:", counselingdata_1.get_session_id())
-    print("Session Date:", counselingdata_1.get_session_date())
-    print("Type of Service:", counselingdata_1.get_service())
-    print("Session Status:", counselingdata_1.get_session_status())
-    print("Counselor Name:", counselingdata_1.get_counselor_name())
-    print("Advisor Name:", counselingdata_1.get_advisor_name())
-    print("Student Name:", counselingdata_1.get_student_name())
-    print("Follow Up:", counselingdata_1.get_follow_up())
-    print("Next Appointment:", counselingdata_1.get_next_appointment())
-
-    #Updated
-    '''
-    This section of the code is for testing the output of the modified details
-    '''
-    print("\nSESSION UPDATE")
-    counselingdata_1.update_session_status("Ongoing")
-    print("Session Status:", counselingdata_1.get_session_status())
-
-    counselingdata_1.session_notes = "Student expressed feelings of burnout because of both school and work schedules."
-    print("Session Notes:", counselingdata_1.view_session_notes())
-
-    counselingdata_1.update_follow_up("Yes")
-    print("Follow Up:", counselingdata_1.get_follow_up())
-
-    counselingdata_1.update_next_appointment("July 09 2025 (3PM to 4PM)")
-    print("Next Appointment:", counselingdata_1.get_next_appointment())
+        self._next_appointment = updated_next_appointment
