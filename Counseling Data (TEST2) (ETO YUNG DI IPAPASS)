@@ -1,0 +1,124 @@
+class counselingdata:
+    
+    def __init__(self, session_id, session_date, service, session_status, counselor_name, advisor_name, student_name, session_notes, follow_up, next_appointment):
+
+        #Public
+        self.session_id = session_id
+
+        #Private  
+        self.__counselor_name = counselor_name
+        self.__advisor_name = advisor_name
+        self.__student_name = student_name
+        self.__session_notes = session_notes
+
+
+        #Protected
+        self._session_date = session_date
+        self._service = service
+        self._session_status = session_status
+        self._follow_up = follow_up
+        self._next_appointment = next_appointment
+
+
+#PUBLIC
+    def get_session_id(self):
+        return self.session_id
+
+    def set_session_id(self, session_id):
+        if session_id.startswith("CD") and len(session_id) == 8 and session_id[2:].isdigit():
+            self.session_id = session_id
+        else:
+            raise ValueError("Invalid Session ID")
+
+#PRIVATE
+
+    def get_counselor_name(self):  
+        return self.__counselor_name
+
+    def get_advisor_name(self):
+        return self.__advisor_name  
+
+    def get_student_name(self):
+        return self.__student_name  
+
+    def view_session_notes(self):
+        return self.__session_notes
+
+    def set_session_notes(self, updated_session_notes):
+        self.__session_notes = updated_session_notes
+
+
+
+#PROTECTED
+    def get_session_date(self):
+        return self._session_date
+
+    def get_service(self):
+        return self._service
+
+    def get_session_status(self):
+        return self._session_status
+
+    def update_session_status(self, new_session_status):
+        self._session_status = new_session_status
+
+    def get_follow_up(self):
+        return self._follow_up
+
+    def update_follow_up(self, new_follow_up):
+        self._follow_up = new_follow_up
+    
+    def get_next_appointment(self):
+        return self._next_appointment
+
+    def update_next_appointment(self, updated_next_appointment):
+        self._next_appointment = updated_next_appointment
+
+#TESTING
+if __name__ == "__main__":
+    
+    counselingdata_1 = counselingdata(
+        session_id = "CD725002",
+        session_date = "July 07 2025 (2PM to 3PM)",
+        service = "Individual Assessment",
+        session_status = "Waiting",
+        counselor_name = "Casey Scout",
+        advisor_name = "Maricel Panganiban",
+        student_name = "Juan A. Dela Cruz",
+        session_notes = None,
+        follow_up = "Not Applicable",
+        next_appointment = "Not Applicable"
+    )
+
+#Public
+    print("Session ID:", counselingdata_1.session_id)
+
+#Private
+
+    print("Counselor Name:", counselingdata_1.__counselor_name)
+    print("Advisor Name:", counselingdata_1.__advisor_name)
+    print("Student Name:", counselingdata_1.__student_name)
+
+#Protected
+    print("Session Date:", counselingdata_1._session_date)
+    print("Type of Service:", counselingdata_1._service)
+    print("Session Status:", counselingdata_1._session_status)
+    print("Follow Up:", counselingdata_1._follow_up)
+    print("Next Appointment:", counselingdata_1._next_appointment)
+
+    print("\nSESSION UPDATE")
+
+    #Protected_Update
+    counselingdata_1.update_session_status("Ongoing")
+    print("Session Status:", counselingdata_1._session_status)
+
+    #Private_Update
+    counselingdata_1.set_session_notes ("Student expressed feelings of burnout because of both school and work schedules.")
+    print("Session Notes:", counselingdata_1.__session_notes)
+
+    #Protected_Update
+    counselingdata_1.update_follow_up("Yes")
+    print("Follow Up:", counselingdata_1._follow_up)
+
+    counselingdata_1.update_next_appointment("July 09 2025 (3PM to 4PM)")
+    print("Next Appointment:", counselingdata_1._next_appointment)
