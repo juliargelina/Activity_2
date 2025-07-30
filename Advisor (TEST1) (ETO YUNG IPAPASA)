@@ -1,0 +1,93 @@
+'''Test 1 May Public attribute (extra) as a test lang if magpriprint 
+yung public tapos magpriprint din ang mga asa private'''
+
+'''ginamit yung __ and get-set access modifiers to print'''
+
+class adviser:
+     def __init__(self, advisor_id, name, email, contact_number, department, office_hours, consulting_students):
+
+          #public
+          self.advisor_id = advisor_id
+
+          #private
+          self.__name = name
+          self.__email = None
+          self.__contact_number = None
+          self.__department = department
+          
+          #protected
+          self._consulting_students = consulting_students
+          self._office_hours = office_hours
+
+#PUBLIC
+#advisor id
+     def get_advisor_id(self):
+        return self.advisor_id
+
+#PRIVATE
+#name
+     def get_name(self):
+        return self.__name
+
+#email
+     def get_email(self):
+        return self.__email
+     def set_email(self, email):  
+        if '@' in email and '.' in email:
+            self.__email = email
+        else:
+            raise ValueError("Invalid email address format")
+
+
+#contact number
+     def get_contact_number(self):
+        return self.__contact_number
+     def set_contact_number(self, contact_number):
+        if len(contact_number) == 11 and contact_number.isdigit():
+            self.__contact_number = contact_number
+        else:
+            raise ValueError("Invalid mobile number format")
+#department
+     def get_department(self):
+        return self.__department
+
+
+
+#PROTECTED (could be into subclass)
+#office hours
+     def get_office_hours(self): 
+        return self._office_hours
+     
+#consulting student  
+     def get_consulting_students(self):
+        return self._consulting_students    
+
+
+#Tesing (get-set method)
+    #RESULT: Dapat di kita private attributes 
+    #ginamit here is __ to determine if maaaccess ba
+if __name__ == "__main__":
+   adviser_1 = adviser(advisor_id= "2025-54321",
+                       name = "Casey Scout", 
+                       email = None, 
+                       contact_number = None,
+                       department = "Faculty of Information and Communication Studies",
+                       office_hours="Monday - Friday (7AM to 4PM)", 
+                       consulting_students=("Dela Cruz, J.\n\t\tGarcia, J."))
+
+   #PUBLIC
+   print("Advisor ID:", adviser_1.advisor_id)
+
+   #PRIVATE
+   print("Name:", adviser_1.get_name())
+  
+   adviser_1.set_email("cscout@up.edu.ph")
+   print("Email:", adviser_1.get_email())
+  
+   adviser_1.set_contact_number("09212023775")
+   print("Contact Number:", adviser_1.get_contact_number())
+   print("Department:", adviser_1.get_department())
+
+   #PROTECTED  
+   print("Consulting Students:", adviser_1.get_consulting_students())
+   print("Office Hours:", adviser_1.get_office_hours())
