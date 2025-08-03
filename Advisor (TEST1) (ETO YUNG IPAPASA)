@@ -17,6 +17,7 @@ class adviser:
         '''
         Initialize a new instance of the Adviser class.
         Parameters: 
+            Counselor ID = ID number of the Counselor
             name = Full name of the adviser
             department = the Department of the adviser
             office_hours = The working hours of the adviser
@@ -46,13 +47,13 @@ class adviser:
     # PUBLIC
     # advisor id
     def get_advisor_id(self):
-        ''' Return the full name of the Adviser. '''
+        ''' Return the adviseor ID. '''
         return self.advisor_id
 
     # PRIVATE
     # name
     def get_name(self):
-        ''' Return the email of the adviser. '''
+        ''' Return the full name of the Adviser. '''
         return self.__name
 
     # email
