@@ -3,68 +3,102 @@ yung public tapos magpriprint din ang mga asa private'''
 
 '''ginamit yung __ and get-set access modifiers to print'''
 
+''' 
+Note: We use __ (double underscore) for private attributes, 
+and single underscore (_) for protected ones. 
+'''
 class counselor:
-     def __init__(self, counselor_id, name, email, schedule, assigned_students):
-          
-          #public
-          self.counselor_id = counselor_id
 
-          #private
-          self.__name = name
-          self.__email = None
-          
-          #protected
-          self._schedule = schedule
-          self._assigned_students = assigned_students
+    '''
+    Represents a counselor in the Student Counseling Data Management system
+    '''
 
-#Public
-#counselor id
+    def __init__(self, counselor_id, name, email, schedule, assigned_students):
+        ''' 
+        Initialize a new instance of the Counselor Class. 
+        Parameters: 
+        counselor ID = Number ID of the counselor
+        Name = full name of the counselor
+        Schedule = Schedule with date and time of the counselor
+        Assigned Student = names of students who will handle the counselor
+        '''
+        self.name = name
+        self.email = None
+        self.schedule = schedule
+        self.assigned_students = assigned_students
 
-     def get_counselor_id(self):
+        # public
+        self.counselor_id = counselor_id
+
+        # private
+        self.__name = name
+        self.__email = None
+
+        # protected
+        self._schedule = schedule
+        self._assigned_students = assigned_students
+
+    # Public
+    # counselor id
+
+    ''' Using the getter and setter, we can access the information even if it's protected or private. '''
+
+    def get_counselor_id(self):
+        ''' Returns the counselor ID. '''
         return self.counselor_id
 
-#PRIVATE
-#name
-     def get_name(self):
+    # PRIVATE
+    # name
+    def get_name(self):
+        ''' Returns the full name of the counselor. '''
         return self.__name
 
-#email
-     def get_email(self):
+    # email
+    def get_email(self):
+        ''' Returns the email address for the counselor. '''
         return self.__email
-     def set_email(self, email):  
+
+    def set_email(self, email):  
+        ''' 
+        Set the email address for the counselor. 
+        Validates the email format before setting it.
+        '''
         if '@' in email and '.' in email:
             self.__email = email
         else:
             raise ValueError("Invalid email address format")
 
-#Protected
-     def get_schedule(self):
+    # Protected
+    def get_schedule(self):
+        ''' Returns the schedule for the counselor. '''
         return self._schedule
-     
-     def get_assigned_students(self):
-         return self._assigned_students
+
+    def get_assigned_students(self):
+        ''' Update the Assigned student to counselor. '''
+        return self._assigned_students
 
 
-#TESTING
+# TESTING
 # (get-set method)
-    #RESULT: Dapat kita private and protected attributes 
+# RESULT: Dapat kita private and protected attributes 
 if __name__ == "__main__":
-   counselor_1 = counselor( counselor_id="2022-12454",
+    counselor_1 = counselor(
+        counselor_id="2022-12454",
         name='Casey Scout', 
         email="cscout@up.edu.ph",  # Initialize email correctly
         schedule="Mon-Fri 2-5PM", 
         assigned_students="Dela Cruz, J.\n\t\tGarcia, J.\n\t\tRamos, A.\n\t\tSantos J. M."
     )
 
-   #PUBLIC
-   print("Counselor ID:", counselor_1.counselor_id)
+    # PUBLIC
+    print("Counselor ID:", counselor_1.counselor_id)
 
-   #PRIVATE
-   print("Name:", counselor_1.get_name())
-  
-   counselor_1.set_email("cscout@up.edu.ph")
-   print("Email:", counselor_1.get_email())
-  
-   #PROTECTED
-   print("Schedule:", counselor_1.get_schedule())
-   print("Assigned Students:", counselor_1.get_assigned_students())
+    # PRIVATE
+    print("Name:", counselor_1.get_name())
+
+    counselor_1.set_email("cscout@up.edu.ph")
+    print("Email:", counselor_1.get_email())
+
+    # PROTECTED
+    print("Schedule:", counselor_1.get_schedule())
+    print("Assigned Students:", counselor_1.get_assigned_students())
