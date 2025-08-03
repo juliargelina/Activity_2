@@ -3,91 +3,133 @@ yung public tapos magpriprint din ang mga asa private'''
 
 '''ginamit yung __ and get-set access modifiers to print'''
 
+''' 
+Note: We use __ (double underscore) for private attributes, 
+and single underscore (_) for protected ones. 
+'''
+
 class adviser:
-     def __init__(self, advisor_id, name, email, contact_number, department, office_hours, consulting_students):
+    '''
+    Represents an Adviser in the Student Counseling Data Management system
+    '''
+    
+    def __init__(self, advisor_id, name, email, contact_number, department, office_hours, consulting_students):
+        '''
+        Initialize a new instance of the Adviser class.
+        Parameters: 
+            name = Full name of the adviser
+            department = the Department of the adviser
+            office_hours = The working hours of the adviser
+            consulting_students = the names of the students who will consult. 
 
-          #public
-          self.advisor_id = advisor_id
+        Note:
+            This class uses all three types of access modifiers: public, private, and protected.
+        '''
 
-          #private
-          self.__name = name
-          self.__email = None
-          self.__contact_number = None
-          self.__department = department
-          
-          #protected
-          self._consulting_students = consulting_students
-          self._office_hours = office_hours
+        # public
+        self.advisor_id = advisor_id
 
-#PUBLIC
-#advisor id
-     def get_advisor_id(self):
+        # private
+        self.__name = name
+        self.__email = None
+        self.__contact_number = None
+        self.__department = department
+        
+        # protected
+        self._consulting_students = consulting_students
+        self._office_hours = office_hours
+
+        '''
+        Using the getter and setter, we can access the information even if it's protected or private.
+        '''
+
+    # PUBLIC
+    # advisor id
+    def get_advisor_id(self):
+        ''' Return the full name of the Adviser. '''
         return self.advisor_id
 
-#PRIVATE
-#name
-     def get_name(self):
+    # PRIVATE
+    # name
+    def get_name(self):
+        ''' Return the email of the adviser. '''
         return self.__name
 
-#email
-     def get_email(self):
+    # email
+    def get_email(self):
+        ''' 
+        Set email for the adviser. 
+        Validates the email format before setting it. 
+        '''
         return self.__email
-     def set_email(self, email):  
+
+    def set_email(self, email):  
         if '@' in email and '.' in email:
             self.__email = email
         else:
             raise ValueError("Invalid email address format")
 
-
-#contact number
-     def get_contact_number(self):
+    # contact number
+    def get_contact_number(self):
+        ''' Return the contact number of the adviser. '''
         return self.__contact_number
-     def set_contact_number(self, contact_number):
+
+    def set_contact_number(self, contact_number):
+        '''
+        Set the contact number for the adviser.
+        Validates the mobile number format before setting it.
+        The contact number should be 11 digits long and numeric.
+        '''
         if len(contact_number) == 11 and contact_number.isdigit():
             self.__contact_number = contact_number
         else:
             raise ValueError("Invalid mobile number format")
-#department
-     def get_department(self):
+
+    # department
+    def get_department(self):
+        ''' Return the department of the adviser. '''
         return self.__department
 
-
-
-#PROTECTED (could be into subclass)
-#office hours
-     def get_office_hours(self): 
+    # PROTECTED (could be in a subclass)
+    # office hours
+    def get_office_hours(self): 
+        ''' Return the office hours of the adviser. '''
         return self._office_hours
-     
-#consulting student  
-     def get_consulting_students(self):
+
+    # consulting student  
+    def get_consulting_students(self):
+        ''' Return consulting students of the adviser. '''
         return self._consulting_students    
 
 
-#Tesing (get-set method)
-    #RESULT: Dapat di kita private attributes 
-    #ginamit here is __ to determine if maaaccess ba
+# Testing (get-set method)
+# RESULT: Check if private attributes can be accessed
+# Using __ to test access protection
+
 if __name__ == "__main__":
-   adviser_1 = adviser(advisor_id= "2025-54321",
-                       name = "Casey Scout", 
-                       email = None, 
-                       contact_number = None,
-                       department = "Faculty of Information and Communication Studies",
-                       office_hours="Monday - Friday (7AM to 4PM)", 
-                       consulting_students=("Dela Cruz, J.\n\t\tGarcia, J."))
+    adviser_1 = adviser(
+        advisor_id="2025-54321",
+        name="Casey Scout", 
+        email=None, 
+        contact_number=None,
+        department="Faculty of Information and Communication Studies",
+        office_hours="Monday - Friday (7AM to 4PM)", 
+        consulting_students=("Dela Cruz, J.\n\t\tGarcia, J.")
+    )
 
-   #PUBLIC
-   print("Advisor ID:", adviser_1.advisor_id)
+    # PUBLIC
+    print("Advisor ID:", adviser_1.advisor_id)
 
-   #PRIVATE
-   print("Name:", adviser_1.get_name())
-  
-   adviser_1.set_email("cscout@up.edu.ph")
-   print("Email:", adviser_1.get_email())
-  
-   adviser_1.set_contact_number("09212023775")
-   print("Contact Number:", adviser_1.get_contact_number())
-   print("Department:", adviser_1.get_department())
+    # PRIVATE
+    print("Name:", adviser_1.get_name())
+    
+    adviser_1.set_email("cscout@up.edu.ph")
+    print("Email:", adviser_1.get_email())
+    
+    adviser_1.set_contact_number("09212023775")
+    print("Contact Number:", adviser_1.get_contact_number())
+    print("Department:", adviser_1.get_department())
 
-   #PROTECTED  
-   print("Consulting Students:", adviser_1.get_consulting_students())
-   print("Office Hours:", adviser_1.get_office_hours())
+    # PROTECTED  
+    print("Consulting Students:", adviser_1.get_consulting_students())
+    print("Office Hours:", adviser_1.get_office_hours())
