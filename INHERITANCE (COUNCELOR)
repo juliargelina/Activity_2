@@ -22,19 +22,19 @@ class Counselor:
         self.__counselor_id = counselor_id            # Unique identifier
         self.__name = name                            # Full name of the counselor
         self.__email_address = None                   # Email address of the counselor
-        self.__mobile_no = None                     # Mobile number of the counselor
+        self.__mobile_no = None                       # Mobile number of the counselor
         self.__license_number = license_number        # License number of the counselor
         self.__schedule = []                          # Schedule of counseling sessions
 
     def get_details(self):
         ''' Returns a dictionary containing the counselor's details. '''
         return {
-            'id_number': self.__counselor_id,
-            'name': self.__name,
-            'email_address': self.__email_address,
-            'mobile_no': self.__mobile_no,
-            'license_number': self.__license_number,
-            'schedule': self.__schedule
+            "id number": self.__counselor_id,
+            "name": self.__name,
+            "email address": self.__email_address,
+            "mobile no": self.__mobile_no,
+            "license number": self.__license_number,
+            "schedule" : self.__schedule
         }
     
     def get_schedule(self):
@@ -94,7 +94,7 @@ class GuidanceCounselor(Counselor):
 ###### SUPPLY THE ATTRIBUTES AND METHODS FOR CAREER COUNSELOR BASED ON THE SPECIFICATIONS ######
 class CareerCounselor(Counselor):
     '''
-    Represents a guidance counselor, inheriting from the Counselor class.
+    Represents a career counselor, inheriting from the Counselor class.
     '''
     
     def __init__(self, counselor_id, name, license_number, industry_expertise=None, career_tools=None, alumni_connections=None):
@@ -127,15 +127,15 @@ class CareerCounselor(Counselor):
         ''' Updates the alumni network connections. '''
         self.__alumni_connections = new_connections
 
-###### SUPPLY THE ATTRIBUTES AND METHODS FOR METAL HEALTH COUNSELOR BASED ON THE SPECIFICATIONS ######
+###### SUPPLY THE ATTRIBUTES AND METHODS FOR MENTAL HEALTH COUNSELOR BASED ON THE SPECIFICATIONS ######
 class MentalHealthCounselor(Counselor):
     '''
-    Represents a guidance counselor, inheriting from the Counselor class.
+    Represents a mental health counselor, inheriting from the Counselor class.
     '''
 
     def __init__(self, counselor_id, name, license_number, specialization=None, therapeutic_approaches=None):
         super().__init__(counselor_id, name, license_number)
-        self.__specialization = specialization or ""               # Area of specialization (e.g., clinical psychology)
+        self.__specialization = specialization or ""                # Area of specialization (e.g., clinical psychology)
         self.__therapeutic_approaches = therapeutic_approaches or [] # List of therapeutic approaches (e.g., CBT, mindfulness)
 
     def get_specialization(self):
@@ -153,3 +153,86 @@ class MentalHealthCounselor(Counselor):
     def update_therapeutic_approaches(self, new_approaches):
         ''' Updates the therapeutic approaches. '''
         self.__therapeutic_approaches = new_approaches
+
+# --- Create instances of each counselor subclass ---
+
+# Guidance Counselor
+gc = GuidanceCounselor(
+    counselor_id="GC001",
+    name="Ms. Santos",
+    license_number="LIC12345",
+    academic_specialties=["Mathematics", "Science"],
+    support_programs=["Peer Mentoring", "Academic Coaching"],
+    disciplinary_liaison=True
+)
+gc.update_counselor_details(
+    email_address= "ms.santos@school.edu",
+    mobile_no= "0917-123-4567",
+    schedule=("Monday 9AM-11AM", "Wednesday 2PM-4PM")
+)
+
+# Career Counselor
+cc = CareerCounselor(
+    counselor_id="CC001",
+    name="Mr. Reyes",
+    license_number="LIC67890",
+    industry_expertise=["Engineering", "IT"],
+    career_tools=["Aptitude Test", "Personality Test"],
+    alumni_connections=["Eng. Dela Cruz", "IT Specialist Ramos"]
+)
+cc.update_counselor_details(
+    email_address="mr.reyes@careercenter.org",
+    mobile_no="0920-987-6543",
+    schedule=["Tuesday 10AM-12PM", "Thursday 1PM-3PM"]
+)
+
+# Mental Health Counselor
+mhc = MentalHealthCounselor(
+    counselor_id="MHC001",
+    name="Dr. Cruz",
+    license_number="LIC54321",
+    specialization="Clinical Psychology",
+    therapeutic_approaches=["CBT", "Mindfulness"]
+)
+mhc.update_counselor_details(
+    email_address="dr.cruz@clinic.com",
+    mobile_no="0998-555-1122",
+    schedule=["Friday 9AM-5PM"]
+)
+
+# --- Print details in clean format ---
+
+print("\nCareer Counselor Details: \n")
+cc_details = cc.get_details()
+print(f"ID Number: {cc_details['id number']}")  # Corrected key
+print(f"Name: {cc_details['name']}")
+print(f"Email Address: {cc_details['email address']}")  # Corrected key
+print(f"Mobile No: {cc_details['mobile no']}")  # Corrected key
+print(f"License Number: {cc_details['license number']}")
+print(f"Schedule: {', '.join(cc_details['schedule'])}")
+print(f"Industry Expertise: {', '.join(cc.get_industry_expertise())}")
+print(f"Career Tools: {', '.join(cc.get_career_assessment_tools())}")
+print(f"Alumni Connections: {', '.join(cc.get_alumni_network_connections())}")
+
+print("\n Guidance Counselor Details:\n")
+gc_details = gc.get_details()
+print(f"ID Number: {gc_details['id number']}")  # Corrected key
+print(f"Name: {gc_details['name']}")
+print(f"Email Address: {gc_details['email address']}")  # Corrected key
+print(f"Mobile No: {gc_details['mobile no']}")  # Corrected key
+print(f"License Number: {gc_details['license number']}")
+print(f"Schedule: {', '.join(gc_details['schedule'])}")
+print(f"Specialties: {', '.join(gc.get_academic_specialties())}")
+print(f"Programs: {', '.join(gc.get_student_support_programs())}")
+print(f"Disciplinary Liaison: {gc.get_disciplinary_liaison()}")
+
+print("\nMental Health Counselor Details:\n")
+mhc_details = mhc.get_details()
+print(f"ID Number: {mhc_details['id number']}")  # Corrected key
+print(f"Name: {mhc_details['name']}")
+print(f"Email Address: {mhc_details['email address']}")  # Corrected key
+print(f"Mobile No: {mhc_details['mobile no']}")  # Corrected key
+print(f"License Number: {mhc_details['license number']}")
+print(f"Schedule: {', '.join(mhc_details['schedule'])}")
+print(f"Specialization: {mhc.get_specialization()}")
+print(f"Therapeutic Approaches: {', '.join(mhc.get_approaches())}")
