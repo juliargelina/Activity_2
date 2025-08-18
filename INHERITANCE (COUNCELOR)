@@ -1,0 +1,155 @@
+'''
+Student Counseling Data Management System (SCDMS): Counselor Module
+This class represents the counselor module of the SCDMS.
+
+This is the implementation of the Counselor class and its subclasses.
+'''
+
+###### THIS IS THE COUNSELOR SUPERCLASS. DO NOT EDIT THIS CLASS ######
+class Counselor:
+    '''
+    Represents a counselor in the Student Counseling Data Management System.
+    '''
+
+    def __init__(self, counselor_id, name, license_number):
+        '''
+        Initializes a new instance of the Counselor class.
+        Parameters:
+        id_number: Unique identifier for the counselor.
+        name: Full name of the counselor.
+        specialization: Area of expertise or specialization of the counselor.
+        '''
+        self.__counselor_id = counselor_id            # Unique identifier
+        self.__name = name                            # Full name of the counselor
+        self.__email_address = None                   # Email address of the counselor
+        self.__mobile_no = None                     # Mobile number of the counselor
+        self.__license_number = license_number        # License number of the counselor
+        self.__schedule = []                          # Schedule of counseling sessions
+
+    def get_details(self):
+        ''' Returns a dictionary containing the counselor's details. '''
+        return {
+            'id_number': self.__counselor_id,
+            'name': self.__name,
+            'email_address': self.__email_address,
+            'mobile_no': self.__mobile_no,
+            'license_number': self.__license_number,
+            'schedule': self.__schedule
+        }
+    
+    def get_schedule(self):
+        ''' Returns the schedule of counseling sessions. '''
+        return self.__schedule
+    
+    def update_counselor_details(self, name=None, email_address=None, mobile_no=None, schedule=None):
+        ''' Updates the counselor's details. '''
+        if name:                                    # Update name if provided
+            self.__name = name
+        if email_address:                           # Update email address if provided
+            self.__email_address = email_address
+        if mobile_no:                               # Update mobile number if provided
+            self.__mobile_no = mobile_no
+        if schedule:                                # Update schedule if provided
+            self.__schedule = schedule
+
+###### DO NOT EDIT THE COUNSELOR SUPER CLASS ABOVE ######
+
+###### YOU MUST EDIT THE CLASSES BELOW ######
+
+###### SUPPLY THE ATTRIBUTES AND METHODS FOR GUIDANCE COUNSELOR BASED ON THE SPECIFICATIONS ######
+class GuidanceCounselor(Counselor):
+    '''
+    Represents a guidance counselor, inheriting from the Counselor class.
+    '''
+    def __init__(self, counselor_id, name, license_number, academic_specialties=None, support_programs=None, disciplinary_liaison=False):
+        super().__init__(counselor_id, name, license_number)
+        self.__academic_specialties = academic_specialties or []  # List of academic specialties
+        self.__support_programs = support_programs or []          # List of student support programs
+        self.__disciplinary_liaison = disciplinary_liaison        # Boolean: is liaison or not
+
+    def get_academic_specialties(self):
+        ''' Returns the academic specialties of the guidance counselor. '''
+        return self.__academic_specialties
+    
+    def update_academic_specialties(self, new_specialties):
+        ''' Updates the academic specialties. '''
+        self.__academic_specialties = new_specialties
+    
+    def get_student_support_programs(self):
+        ''' Returns the student support programs handled. '''
+        return self.__support_programs
+    
+    def update_student_support_programs(self, new_programs):
+        ''' Updates the support programs list. '''
+        self.__support_programs = new_programs
+    
+    def get_disciplinary_liaison(self):
+        ''' Returns True if the counselor acts as a disciplinary liaison. '''
+        return self.__disciplinary_liaison
+    
+    def update_disciplinary_liaison(self, status):
+        ''' Updates the disciplinary liaison status. '''
+        self.__disciplinary_liaison = status
+
+###### SUPPLY THE ATTRIBUTES AND METHODS FOR CAREER COUNSELOR BASED ON THE SPECIFICATIONS ######
+class CareerCounselor(Counselor):
+    '''
+    Represents a guidance counselor, inheriting from the Counselor class.
+    '''
+    
+    def __init__(self, counselor_id, name, license_number, industry_expertise=None, career_tools=None, alumni_connections=None):
+        super().__init__(counselor_id, name, license_number)
+        self.__industry_expertise = industry_expertise or []      # List of industries they specialize in
+        self.__career_tools = career_tools or []                  # List of career assessment tools
+        self.__alumni_connections = alumni_connections or []      # List of alumni connections
+
+    def get_industry_expertise(self):
+        ''' Returns the list of industry expertise. '''
+        return self.__industry_expertise
+    
+    def update_industry_expertise(self, new_expertise):
+        ''' Updates the industry expertise list. '''
+        self.__industry_expertise = new_expertise
+    
+    def get_career_assessment_tools(self):
+        ''' Returns the list of career assessment tools. '''
+        return self.__career_tools
+    
+    def update_career_assessment_tools(self, new_tools):
+        ''' Updates the career assessment tools. '''
+        self.__career_tools = new_tools
+    
+    def get_alumni_network_connections(self):
+        ''' Returns the alumni network connections. '''
+        return self.__alumni_connections
+    
+    def update_alumni_network_connections(self, new_connections):
+        ''' Updates the alumni network connections. '''
+        self.__alumni_connections = new_connections
+
+###### SUPPLY THE ATTRIBUTES AND METHODS FOR METAL HEALTH COUNSELOR BASED ON THE SPECIFICATIONS ######
+class MentalHealthCounselor(Counselor):
+    '''
+    Represents a guidance counselor, inheriting from the Counselor class.
+    '''
+
+    def __init__(self, counselor_id, name, license_number, specialization=None, therapeutic_approaches=None):
+        super().__init__(counselor_id, name, license_number)
+        self.__specialization = specialization or ""               # Area of specialization (e.g., clinical psychology)
+        self.__therapeutic_approaches = therapeutic_approaches or [] # List of therapeutic approaches (e.g., CBT, mindfulness)
+
+    def get_specialization(self):
+        ''' Returns the specialization of the counselor. '''
+        return self.__specialization
+    
+    def update_specialization(self, new_specialization):
+        ''' Updates the specialization of the counselor. '''
+        self.__specialization = new_specialization
+    
+    def get_approaches(self):
+        ''' Returns the list of therapeutic approaches used. '''
+        return self.__therapeutic_approaches
+    
+    def update_therapeutic_approaches(self, new_approaches):
+        ''' Updates the therapeutic approaches. '''
+        self.__therapeutic_approaches = new_approaches
