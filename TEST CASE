@@ -46,7 +46,7 @@ class SessionNotes:
         self.__session_notes_id = session_notes_id
         self.__title = title
         self.__notes = notes
-        self.__added_by = added_by  # Counselor object
+        self.__added_by = added_by
         self.__date_added = date_added if date_added else datetime.now()
 
     def update_session_notes(self, title=None, notes=None):
@@ -60,8 +60,7 @@ class SessionNotes:
             'session_notes_id': self.__session_notes_id,
             'title': self.__title,
             'notes': self.__notes,
-            # ✅ Fixed: only counselor's name, not whole dict
-            'added_by': self.__added_by.get_details()["name"],
+            'added_by': self.__added_by.get_details(),
             'date_added': self.__date_added
         }
 
@@ -97,7 +96,7 @@ class GuidanceSession(Session):
                  session_notes, guidance_area, academic_concerns,
                  social_concerns, is_resolved, is_followup_needed):
         super().__init__(session_id, session_schedule, student, counselor)
-        self._Session__session_notes = session_notes
+        self.__session_notes = session_notes
         self.__guidance_area = guidance_area
         self.__academic_concerns = academic_concerns
         self.__social_concerns = social_concerns
@@ -105,12 +104,13 @@ class GuidanceSession(Session):
         self.__is_followup_needed = is_followup_needed
 
     def add_session_notes(self, session_notes):
-        self._Session__session_notes = session_notes
+        self.__session_notes = session_notes
 
     def get_session_notes(self):
         return (
-            self._Session__session_notes.get_session_notes()
-            if self._Session__session_notes else None
+            self.__session_notes.get_session_notes()
+            if isinstance(self.__session_notes, SessionNotes) 
+            else self.__session_notes
         )
 
     def get_guidance_area(self):
@@ -139,19 +139,122 @@ class GuidanceSession(Session):
 
     def update_is_resolved(self, status):
         if status is True:
-            self.__is_resolved = "✅ Session is Resolved"
+            self.__is_resolved = "Session is Resolved"
         elif status is False:
-            self.__is_resolved = "❌ Session is Not Resolved"
+            self.__is_resolved = "Session is Unresolved"
         else:
-            raise ValueError('Please choose only between True/False')
+            raise ValueError('Please choose only between "Resolved" or "Unresolved"')
 
     def update_is_followup_needed(self, status):
         if status is True:
-            self.__is_followup_needed = "🔄 Student needs a follow-up session"
+            self.__is_followup_needed = "A follow-up session is needed"
         elif status is False:
-            self.__is_followup_needed = "✔ No follow-up needed. Session resolved"
+            self.__is_followup_needed = "No follow-up needed. Session resolved"
         else:
-            raise ValueError('Please choose only between True/False')
+            raise ValueError('Please choose only between "Yes"or "No"')
+
+class MentalHealthSession(Session):
+    def __init__(self, session_id, session_schedule, student, counselor,
+                 session_notes, chief_complaint, symptom_severity, 
+                 therapeutic_approach_used, interventions, treatment_plan):
+        super().__init__(session_id, session_schedule, student, counselor)
+        self.__session_notes = session_notes
+        self.__chief_complaint = chief_complaint
+        self.__symptom_severity = symptom_severity
+        self.__therapeutic_approach_used = therapeutic_approach_used
+        self.__interventions = interventions
+        self.__treatment_plan = treatment_plan
+
+    def add_session_notes(self, session_notes):
+        self.__session_notes = session_notes
+
+    def get_session_notes(self):
+        return (
+            self.__session_notes.get_session_notes()
+            if isinstance(self.__session_notes, SessionNotes) 
+            else self.__session_notes
+        )
+
+    def get_chief_complaint(self):
+        return self.__chief_complaint
+
+    def get_symptom_severity(self):
+        return self.__symptom_severity
+
+    def get_therapeutic_approach_used(self):
+        return self.__therapeutic_approach_used
+
+    def get_interventions(self):
+        return self.__interventions
+
+    def get_treatment_plan(self):
+        return self.__treatment_plan
+
+    def update_chief_complaint(self, complaint):
+        self.__chief_complaint = complaint
+
+    def update_symptom_severity(self, severity):
+        if 1 <= severity <= 4:
+            self.__symptom_severity = 'Low'
+        elif 5 <= severity <= 8:
+            self.__symptom_severity = 'Medium'
+        elif 9 <= severity <= 10:
+            self.__symptom_severity = 'High'
+        else:
+            raise ValueError('Symptom must only be between 1 and 10')
+    
+    def update_therapeutic_approach_used(self, therapeutic_approach_used):
+        self.__therapeutic_approach_used = therapeutic_approach_used
+
+    def update_interventions(self, interventions):
+        self.__interventions = interventions
+
+    def update_treatment_plan(self, treatment_plan):
+        self.__treatment_plan = treatment_plan
+
+class CareerSession(Session):
+    def __init__(self, session_id, session_schedule, student, counselor,
+                 session_notes, career_goal, assessment_administered,
+                 industry_focus, skill_gaps):
+        super().__init__(session_id, session_schedule, student, counselor)
+        self.__session_notes = session_notes
+        self.__career_goal = career_goal
+        self.__assessment_administered = assessment_administered
+        self.__industry_focus = industry_focus
+        self.__skill_gaps = skill_gaps
+
+    def add_session_notes(self, session_notes):
+        self.__session_notes = session_notes
+
+    def get_session_notes(self):
+        return (
+            self.__session_notes.get_session_notes()
+            if isinstance(self.__session_notes, SessionNotes) else self.__session_notes
+        )
+
+    def get_career_goal(self):
+        return self.__career_goal
+
+    def get_assessment_administered(self):
+        return self.__assessment_administered
+
+    def get_industry_focus(self):
+        return self.__industry_focus
+
+    def get_skill_gaps(self):
+        return self.__skill_gaps
+
+    def update_career_goal(self, career_goal):
+        self.__career_goal = career_goal
+
+    def update_assessment_administered(self, assessment):
+        self.__assessment_administered = assessment
+
+    def update_industry_focus(self, industry_focus):
+        self.__industry_focus = industry_focus
+
+    def update_skill_gaps(self, skill_gaps):
+        self.__skill_gaps = skill_gaps
 
 
 class Adviser:
@@ -187,7 +290,6 @@ class Adviser:
     def update_advisees(self, advisee):
         self.__advisees.append(advisee)
 
-
 class Student:
     def __init__(self, id_number, name, degree_program, birthday):
         self.__id_number = id_number
@@ -221,7 +323,6 @@ class Student:
     def set_mobile_no(self, mobile_no):
         self.__mobile_no = mobile_no
 
-
 class Counselor:
     def __init__(self, counselor_id, name, license_number):
         self.__counselor_id = counselor_id
@@ -254,12 +355,11 @@ class Counselor:
         if schedule:
             self.__schedule = schedule
 
-
 class GuidanceCounselor(Counselor):
     def __init__(self, counselor_id, name, license_number, academic_specialties=None, support_programs=None, disciplinary_liaison=False):
         super().__init__(counselor_id, name, license_number)
-        self.__academic_specialties = academic_specialties or []
-        self.__support_programs = support_programs or []
+        self.__academic_specialties = academic_specialties
+        self.__support_programs = support_programs
         self.__disciplinary_liaison = disciplinary_liaison
 
     def get_academic_specialties(self):
@@ -275,18 +375,20 @@ class GuidanceCounselor(Counselor):
         self.__support_programs = new_programs
     
     def get_disciplinary_liaison(self):
-        return "Yes" if self.__disciplinary_liaison else "No"
+        if self.__disciplinary_liaison:
+            return "Yes"
+        else:
+            return "No"
     
     def update_disciplinary_liaison(self, status):
         self.__disciplinary_liaison = status
 
-
 class CareerCounselor(Counselor):
     def __init__(self, counselor_id, name, license_number, industry_expertise=None, career_tools=None, alumni_connections=None):
         super().__init__(counselor_id, name, license_number)
-        self.__industry_expertise = industry_expertise or []
-        self.__career_tools = career_tools or []
-        self.__alumni_connections = alumni_connections or []
+        self.__industry_expertise = industry_expertise
+        self.__career_tools = career_tools
+        self.__alumni_connections = alumni_connections
 
     def get_industry_expertise(self):
         return self.__industry_expertise
@@ -306,12 +408,11 @@ class CareerCounselor(Counselor):
     def update_alumni_network_connections(self, new_connections):
         self.__alumni_connections = new_connections
 
-
 class MentalHealthCounselor(Counselor):
     def __init__(self, counselor_id, name, license_number, specialization=None, therapeutic_approaches=None):
         super().__init__(counselor_id, name, license_number)
-        self.__specialization = specialization or ""
-        self.__therapeutic_approaches = therapeutic_approaches or []
+        self.__specialization = specialization
+        self.__therapeutic_approaches = therapeutic_approaches
 
     def get_specialization(self):
         return self.__specialization
@@ -324,128 +425,299 @@ class MentalHealthCounselor(Counselor):
     
     def update_therapeutic_approaches(self, new_approaches):
         self.__therapeutic_approaches = new_approaches
+### TESTING SCRIPT ###
 
 
-# --- Testing ---
+##GUIDANCE
+    # Create Student
+    student1 = Student(
+        id_number="2022-5012",
+        name="Juan Dela Cruz",
+        degree_program="BAMS",
+        birthday="January 1, 2000")
 
-counselor = Counselor("C001", "Dr. Reyes", "LIC001")
-student = "Juan Dela Cruz"
+    # Create schedule slots
+    slot1 = ScheduleSlot("SLOT034", "2025-07-31", 9, 11)
+    slot2 = ScheduleSlot("SLOT056", "2025-05-21", 14, 16)
 
-notes1 = SessionNotes(session_notes_id="SN001", 
-                      title="First Meeting",
-                      notes="Talked about time management", 
-                      added_by=counselor)
+    # Create Guidance Counselor
+    counselor1 = GuidanceCounselor(
+        counselor_id="GC001",
+        name="Casey Scout",
+        license_number="LIC12345",
+        academic_specialties=["Mathematics", "Science"],
+        support_programs=["Peer Mentoring", "Academic Coaching"],
+        disciplinary_liaison=True
+    )
 
-gs1 = GuidanceSession(
-    session_id="GS001",
-    session_schedule="2025-08-21 10:00",
-    student=student,
-    counselor=counselor,
-    session_notes=None,
-    guidance_area="Academic Planning",
-    academic_concerns=["Study Skills", "Time Management"],
-    social_concerns=["Peer Relationships"],
-    is_resolved=False,
-    is_followup_needed=False
-)
+    # Update contact info and add schedule slots
+    counselor1.update_counselor_details(email_address="csout@up.edu.ph", mobile_no="0917-123-4567")
+    counselor1.get_schedule().extend([slot1, slot2])  # Use existing get_schedule() list
+
+    # Create Session Notes (pass counselor object)
+    notes1 = SessionNotes(
+        session_notes_id="SN001",
+        title="First Meeting",
+        notes="Talked about time management",
+        added_by=counselor1,
+        date_added=slot2.get_schedule_slot_details()['date']
+    )
+
+    # Create Guidance Session (pass student object)
+    guidance1 = GuidanceSession(
+        session_id="GS001",
+        session_schedule=[slot1, slot2],
+        student=student1,
+        counselor=counselor1,
+        session_notes=notes1,
+        guidance_area="Academic Support",
+        academic_concerns=["Study Skills", "Time Management"],
+        social_concerns=["Peer Relationships"],
+        is_resolved="Session is Unresolved",
+        is_followup_needed="A follow-up session is needed"
+    )
+
+    # ---------------------------
+    # PRINT SESSION INFORMATION
+    # ---------------------------
+
+    print(f"\nSESSION {notes1.get_session_notes()['session_notes_id']}")
+
+    # Session Schedule
+    print("Session Schedule:")
+    for slot in guidance1.get_session_details()['session_schedule']:
+        details = slot.get_schedule_slot_details()
+        print(f"  Slot ID: {details['slot_id']}, Date: {details['date']}, Start: {details['start_time']}, End: {details['end_time']}")
+
+    # Student info
+    student_details = guidance1.get_session_details()['student'].get_student_details()
+    print(f"  Student Name: {student_details['name']}")
+
+    # Counselor Info
+    counselor_details = counselor1.get_details()
+    print(f"\nCounselor Information:")
+    print(f"  ID: {counselor_details['id number']}")
+    print(f"  Name: {counselor_details['name']}")
+    print(f"  License Number: {counselor_details['license number']}")
+    print(f"  Email: {counselor_details['email address']}")
+    print(f"  Mobile: {counselor_details['mobile no']}")
+    print(f"  Academic Specialties: {counselor1.get_academic_specialties()}")
+    print(f"  Support Programs: {counselor1.get_student_support_programs()}")
+    print(f"  Disciplinary Liaison: {counselor1.get_disciplinary_liaison()}")
+
+    # Session Notes
+    notes_details = notes1.get_session_notes()
+    print(f"\nGuidance Session Information:")
+    print("Session Notes:")
+    print(f"  Notes ID: {notes_details['session_notes_id']}")
+    print(f"  Title: {notes_details['title']}")
+    print(f"  Notes: {notes_details['notes']}")
+    print(f"  Added by: {notes_details['added_by']['name']}")
+    print(f"  Date Added: {notes_details['date_added']}")
+
+    print(f"  Guidance Area: {guidance1.get_guidance_area()}")
+    print(f"  Academic Concerns: {guidance1.get_academic_concerns()}")
+    print(f"  Social Concerns: {guidance1.get_social_concerns()}")
+    print(f"  Is Resolved: {guidance1.get_is_resolved()}")
+    print(f"  Follow-up Needed? {guidance1.get_is_followup_needed()}")
+
+    guidance1.update_is_resolved(True)      
+    guidance1.update_is_followup_needed(False)  
+    guidance1.update_guidance_area("Scholarship Inquiry")
+
+    print("\nAfter Updates:")
+    print(f"  Guidance Area: {guidance1.get_guidance_area()}")
+    print(f"  Is Resolved? {guidance1.get_is_resolved()}")
+    print(f"  Follow-up Needed? {guidance1.get_is_followup_needed()}")
 
 
 
-session_notes_dict = notes1.get_session_notes()
-print(f"Session Notes ID: {session_notes_dict['session_notes_id']}")
-print(f"Title: {session_notes_dict['title']}")
-print(f"Notes: {session_notes_dict['notes']}")
-print(f"Added By: {session_notes_dict['added_by']}")   # ✅ Counselor name only
-print(f"Date Added: {session_notes_dict['date_added']}")
+##MENTAL HEALTH
+## MENTAL HEALTH
+slot3 = ScheduleSlot("SLOT101", "2025-08-01", 10, 12)
+slot4 = ScheduleSlot("SLOT102", "2025-08-05", 13, 15)
 
-print(f"\nGuidance Area: {gs1.get_guidance_area()}")
-print(f"Academic Concerns: {gs1.get_academic_concerns()}")
-print(f"Social Concerns: {gs1.get_social_concerns()}")
-print(f"Is Resolved? {gs1.get_is_resolved()}")
-print(f"Follow-up Needed? {gs1.get_is_followup_needed()}")
+# Create Student
+student2 = Student(
+        id_number="2022-5012",
+        name="Juan Dela Cruz",
+        degree_program="BAMS",
+        birthday="January 1, 2000")
 
-gs1.update_is_resolved(True)      
-gs1.update_is_followup_needed(False)  
-gs1.update_guidance_area("Scholarship Inquiry")
-
-print("\nAfter updates:")
-print(f"Guidance Area: {gs1.get_guidance_area()}")
-print(f"Is Resolved? {gs1.get_is_resolved()}")
-print(f"Follow-up Needed? {gs1.get_is_followup_needed()}")
-
-role = "disciplinary"
-gc = GuidanceCounselor(
-    counselor_id="GC001",
-    name="Ms. Santos",
-    license_number="LIC12345",
-    academic_specialties=["Mathematics", "Science"],
-    support_programs=["Peer Mentoring", "Academic Coaching"],
-    disciplinary_liaison=(role == "disciplinary")
-)
-gc.update_counselor_details(
-    email_address="ms.santos@school.edu",
-    mobile_no="0917-123-4567",
-    schedule=["Monday 9AM-11AM", "Wednesday 2PM-4PM"]
-)
-
-cc = CareerCounselor(
-    counselor_id="CC001",
-    name="Mr. Reyes",
-    license_number="LIC67890",
-    industry_expertise=["Engineering", "IT"],
-    career_tools=["Aptitude Test", "Personality Test"],
-    alumni_connections=["Eng. Dela Cruz", "IT Specialist"]
-)
-cc.update_counselor_details(
-    email_address="mr.reyes@careercenter.org",
-    mobile_no="0920-987-6543",
-    schedule=["Tuesday 10AM-12PM", "Thursday 1PM-3PM"]
-)
-
-mhc = MentalHealthCounselor(
+# Create Mental Health Counselor
+counselor2 = MentalHealthCounselor(
     counselor_id="MHC001",
-    name="Dr. Cruz",
-    license_number="LIC54321",
-    specialization="Clinical Psychology",
-    therapeutic_approaches=["CBT", "Mindfulness"]
-)
-mhc.update_counselor_details(
-    email_address="dr.cruz@clinic.com",
-    mobile_no="0998-555-1122",
-    schedule=["Friday 9AM-5PM"]
+    name="Helena Reyes",
+    license_number="MHLIC67890",
+    specialization=["Cognitive Behavioral Therapy", "Stress Management"],
+    therapeutic_approaches=["CBT", "Mindfulness", "Solution-Focused"]
 )
 
-print("\nCareer Counselor Details:\n")
-cc_details = cc.get_details()
-print(f"ID Number: {cc_details['id number']}")
-print(f"Name: {cc_details['name']}")
-print(f"Email Address: {cc_details['email address']}")
-print(f"Mobile No: {cc_details['mobile no']}")
-print(f"License Number: {cc_details['license number']}")
-print(f"Schedule: {', '.join(cc_details['schedule'])}")
-print(f"Industry Expertise: {', '.join(cc.get_industry_expertise())}")
-print(f"Career Tools: {', '.join(cc.get_career_assessment_tools())}")
-print(f"Alumni Connections: {', '.join(cc.get_alumni_network_connections())}")
+counselor2.update_counselor_details(email_address="hcruz@up.edu.ph", mobile_no="0917-987-6543")
+counselor2.get_schedule().extend([slot3, slot4])
 
-print("\nGuidance Counselor Details:\n")
-gc_details = gc.get_details()
-print(f"ID Number: {gc_details['id number']}")
-print(f"Name: {gc_details['name']}")
-print(f"Email Address: {gc_details['email address']}")
-print(f"Mobile No: {gc_details['mobile no']}")
-print(f"License Number: {gc_details['license number']}")
-print(f"Schedule: {', '.join(gc_details['schedule'])}")
-print(f"Specialties: {', '.join(gc.get_academic_specialties())}")
-print(f"Programs: {', '.join(gc.get_student_support_programs())}")
-print(f"Disciplinary Liaison: {gc.get_disciplinary_liaison()}")   # ✅ Prints Yes/No
+notes2 = SessionNotes(
+    session_notes_id="SN002",
+    title="Initial Consultation",
+    notes="Discussed anxiety triggers and coping strategies",
+    added_by=counselor2,
+    date_added=slot3.get_schedule_slot_details()['date']
+)
 
-print("\nMental Health Counselor Details:\n")
-mhc_details = mhc.get_details()
-print(f"ID Number: {mhc_details['id number']}")
-print(f"Name: {mhc_details['name']}")
-print(f"Email Address: {mhc_details['email address']}")
-print(f"Mobile No: {mhc_details['mobile no']}")
-print(f"License Number: {mhc_details['license number']}")
-print(f"Schedule: {', '.join(mhc_details['schedule'])}")
-print(f"Specialization: {mhc.get_specialization()}")
-print(f"Therapeutic Approaches: {', '.join(mhc.get_approaches())}")
+mental_health1 = MentalHealthSession(
+    session_id="MHS001",
+    session_schedule=[slot3, slot4],
+    student=student2,  # same student as guidance session
+    counselor=counselor2,
+    session_notes=notes2,
+    chief_complaint="Anxiety",
+    symptom_severity=7,
+    therapeutic_approach_used=["Cognitive Behavioral Therapy (CBT)"],
+    interventions=["Coping Skill Education"],
+    treatment_plan=["Weekly sessions for 8 weeks"]
+)
+
+print(f"\nSESSION {notes2.get_session_notes()['session_notes_id']}")
+
+# Session Schedule
+print("Session Schedule:")
+for slot in mental_health1.get_session_details()['session_schedule']:
+    details = slot.get_schedule_slot_details()
+    print(f"  Slot ID: {details['slot_id']}, Date: {details['date']}, Start: {details['start_time']}, End: {details['end_time']}")
+
+# Student info
+student_details = mental_health1.get_session_details()['student'].get_student_details()
+print(f"  Student Name: {student_details['name']}")
+
+# Counselor Info
+counselor_details = counselor2.get_details()
+print(f"\nCounselor Information:")
+print(f"  ID: {counselor_details['id number']}")
+print(f"  Name: {counselor_details['name']}")
+print(f"  License Number: {counselor_details['license number']}")
+print(f"  Email: {counselor_details['email address']}")
+print(f"  Mobile: {counselor_details['mobile no']}")
+print(f"  Specialization: {counselor2.get_specialization()}")
+print(f"  Therapeutic Approaches: {counselor2.get_approaches()}")
+
+# Session Notes
+notes_details = notes2.get_session_notes()
+print(f"\nMental Health Session Information:")
+print("Session Notes:")
+print(f"  Notes ID: {notes_details['session_notes_id']}")
+print(f"  Title: {notes_details['title']}")
+print(f"  Notes: {notes_details['notes']}")
+print(f"  Added by: {notes_details['added_by']['name']}")
+print(f"  Date Added: {notes_details['date_added']}")
+
+print(f"  Chief Complaint: {mental_health1.get_chief_complaint()}")
+print(f"  Symptom Severity: {mental_health1.get_symptom_severity()}")
+print(f"  Therapeutic Approach Used: {mental_health1.get_therapeutic_approach_used()}")
+print(f"  Interventions: {mental_health1.get_interventions()}")
+print(f"  Treatment Plan: {mental_health1.get_treatment_plan()}")
+
+# Example updates
+mental_health1.update_symptom_severity(4)
+mental_health1.update_treatment_plan(["Weekly sessions for 6 weeks"])
+
+print("\nAfter Updates:")
+print(f"  Symptom Severity: {mental_health1.get_symptom_severity()}")
+print(f"  Updated Treatment Plan: {mental_health1.get_treatment_plan()}")
+
+
+###CAREER
+## CAREER
+slot5 = ScheduleSlot("SLOT201", "2025-08-10", 9, 11)
+slot6 = ScheduleSlot("SLOT202", "2025-08-15", 14, 16)
+
+# Create a different Student
+student3 = Student(
+    id_number="2023-4021",
+    name="Maria Lopez",
+    degree_program="BSIT",
+    birthday="March 12, 2001"
+)
+
+# Create Career Counselor
+counselor3 = CareerCounselor(
+    counselor_id="CC001",
+    name="Ella Santos",
+    license_number="CCLIC12345",
+    industry_expertise=["Healthcare"],
+    career_tools=["Strong Interest Inventory"],
+    alumni_connections=["Alumni Network A", "Alumni Network B"]
+)
+
+counselor3.update_counselor_details(email_address="esantos@up.edu.ph", mobile_no="0917-555-1234")
+counselor3.get_schedule().extend([slot5, slot6])
+
+# Create Session Notes
+notes3 = SessionNotes(
+    session_notes_id="SN003",
+    title="Career Planning Consultation",
+    notes="Discussed career goals and industry options",
+    added_by=counselor3,
+    date_added=slot5.get_schedule_slot_details()['date']
+)
+
+# Create Career Session
+career1 = CareerSession(
+    session_id="CS001",
+    session_schedule=[slot5, slot6],
+    student=student3,
+    counselor=counselor3,
+    session_notes=notes3,
+    career_goal="Job Search Strategy",
+    assessment_administered=["Myers-Briggs"],
+    industry_focus=["Healthcare"],
+    skill_gaps=["Project Management"]
+)
+
+print(f"\nSESSION {notes3.get_session_notes()['session_notes_id']}")
+
+# Session Schedule
+print("Session Schedule:")
+for slot in career1.get_session_details()['session_schedule']:
+    details = slot.get_schedule_slot_details()
+    print(f"  Slot ID: {details['slot_id']}, Date: {details['date']}, Start: {details['start_time']}, End: {details['end_time']}")
+
+# Student info
+student_details = career1.get_session_details()['student'].get_student_details()
+print(f"  Student Name: {student_details['name']}")
+
+# Counselor Info
+counselor_details = counselor3.get_details()
+print(f"\nCounselor Information:")
+print(f"  ID: {counselor_details['id number']}")
+print(f"  Name: {counselor_details['name']}")
+print(f"  License Number: {counselor_details['license number']}")
+print(f"  Email: {counselor_details['email address']}")
+print(f"  Mobile: {counselor_details['mobile no']}")
+print(f"  Industry Expertise: {counselor3.get_industry_expertise()}")
+print(f"  Career Tools: {counselor3.get_career_assessment_tools()}")
+print(f"  Alumni Connections: {counselor3.get_alumni_network_connections()}")
+
+# Session Notes
+notes_details = notes3.get_session_notes()
+print(f"\nCareer Session Information:")
+print("Session Notes:")
+print(f"  Notes ID: {notes_details['session_notes_id']}")
+print(f"  Title: {notes_details['title']}")
+print(f"  Notes: {notes_details['notes']}")
+print(f"  Added by: {notes_details['added_by']['name']}")
+print(f"  Date Added: {notes_details['date_added']}")
+
+print(f"  Career Goal: {career1.get_career_goal()}")
+print(f"  Assessment Administered: {career1.get_assessment_administered()}")
+print(f"  Industry Focus: {career1.get_industry_focus()}")
+print(f"  Skill Gaps: {career1.get_skill_gaps()}")
+
+# Example updates
+career1.update_assessment_administered("Strong Interest Inventory")
+career1.update_career_goal("Hospital Administration")
+career1.update_skill_gaps(["Public Speaking"])
+
+print("\nAfter Updates:")
+print(f"  Assessment Administered: {career1.get_assessment_administered()}")
+print(f"  Career Goal: {career1.get_career_goal()}")
+print(f"  Updated Skill Gaps: {career1.get_skill_gaps()}")
