@@ -425,126 +425,110 @@ class MentalHealthCounselor(Counselor):
     
     def update_therapeutic_approaches(self, new_approaches):
         self.__therapeutic_approaches = new_approaches
+
+
 ### TESTING SCRIPT ###
 
-
 ##GUIDANCE
-    # Create Student
-    student1 = Student(
-        id_number="2022-5012",
-        name="Juan Dela Cruz",
-        degree_program="BAMS",
-        birthday="January 1, 2000")
+student1 = Student(
+    id_number="2022-5012",
+    name="Juan Dela Cruz",
+    degree_program="BAMS",
+    birthday="January 1, 2000")
 
-    # Create schedule slots
-    slot1 = ScheduleSlot("SLOT034", "2025-07-31", 9, 11)
-    slot2 = ScheduleSlot("SLOT056", "2025-05-21", 14, 16)
+slot1 = ScheduleSlot("SLOT034", "2025-07-31", 9, 11)
+slot2 = ScheduleSlot("SLOT056", "2025-05-21", 14, 16)
 
-    # Create Guidance Counselor
-    counselor1 = GuidanceCounselor(
-        counselor_id="GC001",
-        name="Casey Scout",
-        license_number="LIC12345",
-        academic_specialties=["Mathematics", "Science"],
-        support_programs=["Peer Mentoring", "Academic Coaching"],
-        disciplinary_liaison=True
-    )
+counselor1 = GuidanceCounselor(
+    counselor_id="GC001",
+    name="Casey Scout",
+    license_number="LIC12345",
+    academic_specialties=["Mathematics", "Science"],
+    support_programs=["Peer Mentoring", "Academic Coaching"],
+    disciplinary_liaison=True
+)
 
-    # Update contact info and add schedule slots
-    counselor1.update_counselor_details(email_address="csout@up.edu.ph", mobile_no="0917-123-4567")
-    counselor1.get_schedule().extend([slot1, slot2])  # Use existing get_schedule() list
+counselor1.update_counselor_details(email_address="csout@up.edu.ph", mobile_no="0917-123-4567")
+counselor1.get_schedule().extend([slot1, slot2]) 
 
-    # Create Session Notes (pass counselor object)
-    notes1 = SessionNotes(
-        session_notes_id="SN001",
-        title="First Meeting",
-        notes="Talked about time management",
-        added_by=counselor1,
-        date_added=slot2.get_schedule_slot_details()['date']
-    )
+notes1 = SessionNotes(
+    session_notes_id="SN001",
+    title="First Meeting",
+    notes="Talked about time management",
+    added_by=counselor1,
+    date_added=slot2.get_schedule_slot_details()['date']
+)
 
-    # Create Guidance Session (pass student object)
-    guidance1 = GuidanceSession(
-        session_id="GS001",
-        session_schedule=[slot1, slot2],
-        student=student1,
-        counselor=counselor1,
-        session_notes=notes1,
-        guidance_area="Academic Support",
-        academic_concerns=["Study Skills", "Time Management"],
-        social_concerns=["Peer Relationships"],
-        is_resolved="Session is Unresolved",
-        is_followup_needed="A follow-up session is needed"
-    )
+guidance1 = GuidanceSession(
+    session_id="GS001",
+    session_schedule=[slot1, slot2],
+    student=student1,
+    counselor=counselor1,
+    session_notes=notes1,
+    guidance_area="Academic Support",
+    academic_concerns=["Study Skills", "Time Management"],
+    social_concerns=["Peer Relationships"],
+    is_resolved="Session is Unresolved",
+    is_followup_needed="A follow-up session is needed"
+)
 
-    # ---------------------------
-    # PRINT SESSION INFORMATION
-    # ---------------------------
+print(f"\nSESSION {notes1.get_session_notes()['session_notes_id']}")
 
-    print(f"\nSESSION {notes1.get_session_notes()['session_notes_id']}")
+print("Session Schedule:")
+for slot in guidance1.get_session_details()['session_schedule']:
+    details = slot.get_schedule_slot_details()
+    print(f"  Slot ID: {details['slot_id']}, Date: {details['date']}, Start: {details['start_time']}, End: {details['end_time']}")
 
-    # Session Schedule
-    print("Session Schedule:")
-    for slot in guidance1.get_session_details()['session_schedule']:
-        details = slot.get_schedule_slot_details()
-        print(f"  Slot ID: {details['slot_id']}, Date: {details['date']}, Start: {details['start_time']}, End: {details['end_time']}")
+student_details = guidance1.get_session_details()['student'].get_student_details()
+print(f"  Student Name: {student_details['name']}")
 
-    # Student info
-    student_details = guidance1.get_session_details()['student'].get_student_details()
-    print(f"  Student Name: {student_details['name']}")
+counselor_details = counselor1.get_details()
+print(f"\nCounselor Information:")
+print(f"  ID: {counselor_details['id number']}")
+print(f"  Name: {counselor_details['name']}")
+print(f"  License Number: {counselor_details['license number']}")
+print(f"  Email: {counselor_details['email address']}")
+print(f"  Mobile: {counselor_details['mobile no']}")
+print(f"  Academic Specialties: {counselor1.get_academic_specialties()}")
+print(f"  Support Programs: {counselor1.get_student_support_programs()}")
+print(f"  Disciplinary Liaison: {counselor1.get_disciplinary_liaison()}")
 
-    # Counselor Info
-    counselor_details = counselor1.get_details()
-    print(f"\nCounselor Information:")
-    print(f"  ID: {counselor_details['id number']}")
-    print(f"  Name: {counselor_details['name']}")
-    print(f"  License Number: {counselor_details['license number']}")
-    print(f"  Email: {counselor_details['email address']}")
-    print(f"  Mobile: {counselor_details['mobile no']}")
-    print(f"  Academic Specialties: {counselor1.get_academic_specialties()}")
-    print(f"  Support Programs: {counselor1.get_student_support_programs()}")
-    print(f"  Disciplinary Liaison: {counselor1.get_disciplinary_liaison()}")
+notes_details = notes1.get_session_notes()
+print(f"\nGuidance Session Information:")
+print("Session Notes:")
+print(f"  Notes ID: {notes_details['session_notes_id']}")
+print(f"  Title: {notes_details['title']}")
+print(f"  Notes: {notes_details['notes']}")
+print(f"  Added by: {notes_details['added_by']['name']}")
+print(f"  Date Added: {notes_details['date_added']}")
 
-    # Session Notes
-    notes_details = notes1.get_session_notes()
-    print(f"\nGuidance Session Information:")
-    print("Session Notes:")
-    print(f"  Notes ID: {notes_details['session_notes_id']}")
-    print(f"  Title: {notes_details['title']}")
-    print(f"  Notes: {notes_details['notes']}")
-    print(f"  Added by: {notes_details['added_by']['name']}")
-    print(f"  Date Added: {notes_details['date_added']}")
+print(f"  Guidance Area: {guidance1.get_guidance_area()}")
+print(f"  Academic Concerns: {guidance1.get_academic_concerns()}")
+print(f"  Social Concerns: {guidance1.get_social_concerns()}")
+print(f"  Is Resolved: {guidance1.get_is_resolved()}")
+print(f"  Follow-up Needed? {guidance1.get_is_followup_needed()}")
 
-    print(f"  Guidance Area: {guidance1.get_guidance_area()}")
-    print(f"  Academic Concerns: {guidance1.get_academic_concerns()}")
-    print(f"  Social Concerns: {guidance1.get_social_concerns()}")
-    print(f"  Is Resolved: {guidance1.get_is_resolved()}")
-    print(f"  Follow-up Needed? {guidance1.get_is_followup_needed()}")
+guidance1.update_is_resolved(True)      
+guidance1.update_is_followup_needed(False)  
+guidance1.update_guidance_area("Scholarship Inquiry")
 
-    guidance1.update_is_resolved(True)      
-    guidance1.update_is_followup_needed(False)  
-    guidance1.update_guidance_area("Scholarship Inquiry")
-
-    print("\nAfter Updates:")
-    print(f"  Guidance Area: {guidance1.get_guidance_area()}")
-    print(f"  Is Resolved? {guidance1.get_is_resolved()}")
-    print(f"  Follow-up Needed? {guidance1.get_is_followup_needed()}")
+print("\nAfter Updates:")
+print(f"  Guidance Area: {guidance1.get_guidance_area()}")
+print(f"  Is Resolved? {guidance1.get_is_resolved()}")
+print(f"  Follow-up Needed? {guidance1.get_is_followup_needed()}")
 
 
 
 ##MENTAL HEALTH
-## MENTAL HEALTH
 slot3 = ScheduleSlot("SLOT101", "2025-08-01", 10, 12)
 slot4 = ScheduleSlot("SLOT102", "2025-08-05", 13, 15)
 
-# Create Student
 student2 = Student(
         id_number="2022-5012",
         name="Juan Dela Cruz",
         degree_program="BAMS",
         birthday="January 1, 2000")
 
-# Create Mental Health Counselor
 counselor2 = MentalHealthCounselor(
     counselor_id="MHC001",
     name="Helena Reyes",
@@ -567,7 +551,7 @@ notes2 = SessionNotes(
 mental_health1 = MentalHealthSession(
     session_id="MHS001",
     session_schedule=[slot3, slot4],
-    student=student2,  # same student as guidance session
+    student=student2,  
     counselor=counselor2,
     session_notes=notes2,
     chief_complaint="Anxiety",
@@ -579,17 +563,14 @@ mental_health1 = MentalHealthSession(
 
 print(f"\nSESSION {notes2.get_session_notes()['session_notes_id']}")
 
-# Session Schedule
 print("Session Schedule:")
 for slot in mental_health1.get_session_details()['session_schedule']:
     details = slot.get_schedule_slot_details()
     print(f"  Slot ID: {details['slot_id']}, Date: {details['date']}, Start: {details['start_time']}, End: {details['end_time']}")
 
-# Student info
 student_details = mental_health1.get_session_details()['student'].get_student_details()
 print(f"  Student Name: {student_details['name']}")
 
-# Counselor Info
 counselor_details = counselor2.get_details()
 print(f"\nCounselor Information:")
 print(f"  ID: {counselor_details['id number']}")
@@ -600,7 +581,6 @@ print(f"  Mobile: {counselor_details['mobile no']}")
 print(f"  Specialization: {counselor2.get_specialization()}")
 print(f"  Therapeutic Approaches: {counselor2.get_approaches()}")
 
-# Session Notes
 notes_details = notes2.get_session_notes()
 print(f"\nMental Health Session Information:")
 print("Session Notes:")
@@ -616,7 +596,6 @@ print(f"  Therapeutic Approach Used: {mental_health1.get_therapeutic_approach_us
 print(f"  Interventions: {mental_health1.get_interventions()}")
 print(f"  Treatment Plan: {mental_health1.get_treatment_plan()}")
 
-# Example updates
 mental_health1.update_symptom_severity(4)
 mental_health1.update_treatment_plan(["Weekly sessions for 6 weeks"])
 
@@ -626,11 +605,9 @@ print(f"  Updated Treatment Plan: {mental_health1.get_treatment_plan()}")
 
 
 ###CAREER
-## CAREER
 slot5 = ScheduleSlot("SLOT201", "2025-08-10", 9, 11)
 slot6 = ScheduleSlot("SLOT202", "2025-08-15", 14, 16)
 
-# Create a different Student
 student3 = Student(
     id_number="2023-4021",
     name="Maria Lopez",
@@ -638,7 +615,6 @@ student3 = Student(
     birthday="March 12, 2001"
 )
 
-# Create Career Counselor
 counselor3 = CareerCounselor(
     counselor_id="CC001",
     name="Ella Santos",
@@ -651,7 +627,6 @@ counselor3 = CareerCounselor(
 counselor3.update_counselor_details(email_address="esantos@up.edu.ph", mobile_no="0917-555-1234")
 counselor3.get_schedule().extend([slot5, slot6])
 
-# Create Session Notes
 notes3 = SessionNotes(
     session_notes_id="SN003",
     title="Career Planning Consultation",
@@ -660,7 +635,6 @@ notes3 = SessionNotes(
     date_added=slot5.get_schedule_slot_details()['date']
 )
 
-# Create Career Session
 career1 = CareerSession(
     session_id="CS001",
     session_schedule=[slot5, slot6],
@@ -675,17 +649,15 @@ career1 = CareerSession(
 
 print(f"\nSESSION {notes3.get_session_notes()['session_notes_id']}")
 
-# Session Schedule
 print("Session Schedule:")
 for slot in career1.get_session_details()['session_schedule']:
     details = slot.get_schedule_slot_details()
     print(f"  Slot ID: {details['slot_id']}, Date: {details['date']}, Start: {details['start_time']}, End: {details['end_time']}")
 
-# Student info
 student_details = career1.get_session_details()['student'].get_student_details()
 print(f"  Student Name: {student_details['name']}")
 
-# Counselor Info
+
 counselor_details = counselor3.get_details()
 print(f"\nCounselor Information:")
 print(f"  ID: {counselor_details['id number']}")
@@ -697,7 +669,6 @@ print(f"  Industry Expertise: {counselor3.get_industry_expertise()}")
 print(f"  Career Tools: {counselor3.get_career_assessment_tools()}")
 print(f"  Alumni Connections: {counselor3.get_alumni_network_connections()}")
 
-# Session Notes
 notes_details = notes3.get_session_notes()
 print(f"\nCareer Session Information:")
 print("Session Notes:")
@@ -712,7 +683,6 @@ print(f"  Assessment Administered: {career1.get_assessment_administered()}")
 print(f"  Industry Focus: {career1.get_industry_focus()}")
 print(f"  Skill Gaps: {career1.get_skill_gaps()}")
 
-# Example updates
 career1.update_assessment_administered("Strong Interest Inventory")
 career1.update_career_goal("Hospital Administration")
 career1.update_skill_gaps(["Public Speaking"])
