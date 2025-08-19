@@ -157,14 +157,22 @@ class MentalHealthCounselor(Counselor):
 # --- Create instances of each counselor subclass ---
 
 # Guidance Counselor
+role = "disciplinary"   # try changing this to "academic"
+
 gc = GuidanceCounselor(
     counselor_id="GC001",
     name="Ms. Santos",
     license_number="LIC12345",
     academic_specialties=["Mathematics", "Science"],
     support_programs=["Peer Mentoring", "Academic Coaching"],
-    disciplinary_liaison=True
+    disciplinary_liaison= "Yes" if role == "disciplinary" else "Not disciplinary liaison"
 )
+
+def get_disciplinary_liaison(self):
+    ''' Returns True if the counselor acts as a disciplinary liaison. '''
+    return self.__disciplinary_liaison
+
+
 gc.update_counselor_details(
     email_address= "ms.santos@school.edu",
     mobile_no= "0917-123-4567",
@@ -178,7 +186,7 @@ cc = CareerCounselor(
     license_number="LIC67890",
     industry_expertise=["Engineering", "IT"],
     career_tools=["Aptitude Test", "Personality Test"],
-    alumni_connections=["Eng. Dela Cruz", "IT Specialist Ramos"]
+    alumni_connections=["Eng. Dela Cruz", "IT Specialist"]
 )
 cc.update_counselor_details(
     email_address="mr.reyes@careercenter.org",
