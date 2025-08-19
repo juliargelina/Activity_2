@@ -1,0 +1,250 @@
+# ---------------- SCHEDULE SLOT CLASS ----------------
+class ScheduleSlot:
+    '''
+    Represents a schedule slot in the Student Counseling Data Management System.
+    '''
+    def __init__(self, slot_id, date, start_time, end_time, status='available'):
+        self.__slot_id = slot_id
+        self.__date = date
+        self.__start_time = start_time
+        self.__end_time = end_time
+        self.__status = status  # available, booked, cancelled
+        self.__duration = self.__compute_slot_duration()
+
+    def mark_as_booked(self):
+        self.__status = 'booked'
+
+    def mark_as_available(self):
+        self.__status = 'available'
+
+    def mark_as_cancelled(self):
+        self.__status = 'cancelled'
+
+    def update_schedule_slot(self, date=None, start_time=None, end_time=None, status=None):
+        if date:
+            self.__date = date
+        if start_time:
+            self.__start_time = start_time
+        if end_time:
+            self.__end_time = end_time
+        if status:
+            self.__status = status
+
+    def get_schedule_slot_details(self):
+        return {
+            'slot_id': self.__slot_id,
+            'date': self.__date,
+            'start_time': self.__start_time,
+            'end_time': self.__end_time,
+            'status': self.__status
+        }
+
+    def __compute_slot_duration(self):
+        return self.__end_time - self.__start_time  # assuming int hours
+
+# ---------------- COUNSELOR SUPERCLASS ----------------
+class Counselor:
+    '''
+    Represents a counselor in the Student Counseling Data Management System.
+    '''
+    def __init__(self, counselor_id, name, license_number):
+        self.__counselor_id = counselor_id
+        self.__name = name
+        self.__email_address = None
+        self.__mobile_no = None
+        self.__license_number = license_number
+        self.__schedule = []   # List of ScheduleSlot objects
+
+    def add_schedule_slot(self, slot):
+        ''' Adds a ScheduleSlot object to the counselor's schedule. '''
+        if isinstance(slot, ScheduleSlot):
+            self.__schedule.append(slot)
+        else:
+            raise TypeError("Schedule must be a ScheduleSlot object")
+
+    def get_schedule(self):
+        ''' Returns the schedule as a list of dictionaries. '''
+        return [slot.get_schedule_slot_details() for slot in self.__schedule]
+
+    def get_details(self):
+        return {
+            "id number": self.__counselor_id,
+            "name": self.__name,
+            "email address": self.__email_address,
+            "mobile no": self.__mobile_no,
+            "license number": self.__license_number,
+            "schedule": self.get_schedule()
+        }
+
+    def update_counselor_details(self, name=None, email_address=None, mobile_no=None):
+        if name:
+            self.__name = name
+        if email_address:
+            self.__email_address = email_address
+        if mobile_no:
+            self.__mobile_no = mobile_no
+
+# ---------------- GUIDANCE COUNSELOR ----------------
+class GuidanceCounselor(Counselor):
+    def __init__(self, counselor_id, name, license_number, academic_specialties=None, support_programs=None, disciplinary_liaison=False):
+        super().__init__(counselor_id, name, license_number)
+        self.__academic_specialties = academic_specialties or []
+        self.__support_programs = support_programs or []
+        self.__disciplinary_liaison = disciplinary_liaison
+
+    def get_academic_specialties(self):
+        return self.__academic_specialties
+    
+    def update_academic_specialties(self, new_specialties):
+        self.__academic_specialties = new_specialties
+    
+    def get_student_support_programs(self):
+        return self.__support_programs
+    
+    def update_student_support_programs(self, new_programs):
+        self.__support_programs = new_programs
+    
+    def get_disciplinary_liaison(self):
+        if self.__disciplinary_liaison:
+            return "Yes"
+        else:
+            return "No"
+    
+    def update_disciplinary_liaison(self, status):
+        self.__disciplinary_liaison = status
+
+# ---------------- CAREER COUNSELOR ----------------
+class CareerCounselor(Counselor):
+    def __init__(self, counselor_id, name, license_number, industry_expertise=None, career_tools=None, alumni_connections=None):
+        super().__init__(counselor_id, name, license_number)
+        self.__industry_expertise = industry_expertise or []
+        self.__career_tools = career_tools or []
+        self.__alumni_connections = alumni_connections or []
+
+    def get_industry_expertise(self):
+        return self.__industry_expertise
+    
+    def update_industry_expertise(self, new_expertise):
+        self.__industry_expertise = new_expertise
+    
+    def get_career_assessment_tools(self):
+        return self.__career_tools
+    
+    def update_career_assessment_tools(self, new_tools):
+        self.__career_tools = new_tools
+    
+    def get_alumni_network_connections(self):
+        return self.__alumni_connections
+    
+    def update_alumni_network_connections(self, new_connections):
+        self.__alumni_connections = new_connections
+
+# ---------------- MENTAL HEALTH COUNSELOR ----------------
+class MentalHealthCounselor(Counselor):
+    def __init__(self, counselor_id, name, license_number, specialization=None, therapeutic_approaches=None):
+        super().__init__(counselor_id, name, license_number)
+        self.__specialization = specialization or ""
+        self.__therapeutic_approaches = therapeutic_approaches or []
+
+    def get_specialization(self):
+        return self.__specialization
+    
+    def update_specialization(self, new_specialization):
+        self.__specialization = new_specialization
+    
+    def get_approaches(self):
+        return self.__therapeutic_approaches
+    
+    def update_therapeutic_approaches(self, new_approaches):
+        self.__therapeutic_approaches = new_approaches
+
+# ---------------- CREATE COUNSELORS WITH SCHEDULES ----------------
+
+# Create schedule slots
+slot1 = ScheduleSlot("SLOT034", "2025-07-31", 9, 11)
+slot2 = ScheduleSlot("SLOT056", "2025-05-21", 14, 16)
+slot3 = ScheduleSlot("SLOT024", "2025-10-11", 10, 12)
+slot4 = ScheduleSlot("SLOT046", "2025-10-21", 10, 12)
+slot5 = ScheduleSlot("SLOT070", "2025-11-11", 10, 12)
+slot6 = ScheduleSlot("SLOT090", "2025-11-26", 10, 12)
+
+# Guidance Counselor
+gc = GuidanceCounselor(
+    counselor_id="GC001",
+    name="Ms. Santos",
+    license_number="LIC12345",
+    academic_specialties=["Mathematics", "Science"],
+    support_programs=["Peer Mentoring", "Academic Coaching"],
+    disciplinary_liaison=True
+)
+gc.update_counselor_details(email_address="ms.santos@school.edu", mobile_no="0917-123-4567")
+gc.add_schedule_slot(slot1)
+gc.add_schedule_slot(slot2)
+
+# Career Counselor
+cc = CareerCounselor(
+    counselor_id="CC001",
+    name="Mr. Reyes",
+    license_number="LIC67890",
+    industry_expertise=["Engineering", "IT"],
+    career_tools=["Aptitude Test", "Personality Test"],
+    alumni_connections=["Eng. Dela Cruz", "IT Specialist"]
+)
+cc.update_counselor_details(email_address="mr.reyes@careercenter.org", mobile_no="0920-987-6543")
+cc.add_schedule_slot(slot6)
+
+
+# Mental Health Counselor
+mhc = MentalHealthCounselor(
+    counselor_id="MHC001",
+    name="Dr. Cruz",
+    license_number="LIC54321",
+    specialization="Clinical Psychology",
+    therapeutic_approaches=["CBT", "Mindfulness"]
+)
+mhc.update_counselor_details(email_address="dr.cruz@clinic.com", mobile_no="0998-555-1122")
+mhc.add_schedule_slot(slot4)
+mhc.add_schedule_slot(slot5)
+
+# ---------------- PRINT DETAILS ----------------
+def print_schedule(schedule):
+    for s in schedule:
+        print(f"  Slot ID: {s['slot_id']}, Date: {s['date']}, {s['start_time']} - {s['end_time']} ({s['status']})")
+
+print("\n Guidance Counselor Details: \n")
+gc_details = gc.get_details()
+print(f"ID Number: {gc_details['id number']}")
+print(f"Name: {gc_details['name']}")
+print(f"Email: {gc_details['email address']}")
+print(f"Mobile: {gc_details['mobile no']}")
+print(f"License: {gc_details['license number']}")
+print(f"Specialties: {', '.join(gc.get_academic_specialties())}")
+print(f"Programs: {', '.join(gc.get_student_support_programs())}")
+print(f"Disciplinary Liaison: {gc.get_disciplinary_liaison()}")
+print("Schedule:")
+print_schedule(gc_details["schedule"])
+
+print("\n Career Counselor Details: \n")
+cc_details = cc.get_details()
+print(f"ID Number: {cc_details['id number']}")
+print(f"Name: {cc_details['name']}")
+print(f"Email: {cc_details['email address']}")
+print(f"Mobile: {cc_details['mobile no']}")
+print(f"License: {cc_details['license number']}")
+print(f"Industry Expertise: {', '.join(cc.get_industry_expertise())}")
+print(f"Career Tools: {', '.join(cc.get_career_assessment_tools())}")
+print(f"Alumni Connections: {', '.join(cc.get_alumni_network_connections())}")
+print("Schedule:")
+print_schedule(cc_details["schedule"])
+
+print("\n Mental Health Counselor Details: \n")
+mhc_details = mhc.get_details()
+print(f"ID Number: {mhc_details['id number']}")
+print(f"Name: {mhc_details['name']}")
+print(f"Email: {mhc_details['email address']}")
+print(f"Mobile: {mhc_details['mobile no']}")
+print(f"License: {mhc_details['license number']}")
+print(f"Specialization: {mhc.get_specialization()}")
+print(f"Therapeutic Approaches: {', '.join(mhc.get_approaches())}")
+print("Schedule:")
+print_schedule(mhc_details["schedule"])
