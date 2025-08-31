@@ -410,24 +410,24 @@ if __name__ == "__main__":
 
     # --- Print Student Report ---
     print("\n\033[1mStudent Report\033[0m")
-    for s in student_report.get_report_data():
-        print("Session ID:", s["session_id"])
-        print("Date:", s["date"])
-        print("Counselor Name:", s["counselor"])
-        print("Session Type:", s["type"])
-        print("Notes:", s["notes"][0])
-        for line in s["notes"][1:]:
+    for session in student_report.get_report_data():
+        print("Session ID:", session["session_id"])
+        print("Date:", session["date"])
+        print("Counselor Name:", session["counselor"])
+        print("Session Type:", session["type"])
+        print("Notes:", session["notes"][0])
+        for line in session["notes"][1:]:
             print("      " + line)
         print()
 
     # --- Print Counselor Report ---
     print("\n\033[1mCounselor Report\033[0m")
-    for s in counselor_report.get_report_data():
-        print("Session ID:", s["session_id"])
-        print("Date:", s["date"])
-        print("Student Name:", s["student"])
-        print("Session Type:", s["type"])
-        print("Notes:", s["notes"][0])
-        for line in s["notes"][1:]:
+    for session in counselor_report.get_report_data():
+        print("Session ID:", session["session_id"])
+        print("Date:", session["date"])
+        print("Student Name:", session["student"])
+        print("Session Type:", session["type"])
+        print("Notes:", session["notes"][0])
+        for line in session["notes"][1:]:
             print("      " + line)
         print()
