@@ -135,18 +135,25 @@ class DiarySystem:
             return None
 
     # ----------------- entry handling -----------------
-    def _load_entries(self):
-        entries = []
-        if os.path.exists(self.ENTRY_FILE):
-            with open(self.ENTRY_FILE, "r") as f:
-                for line in f:
-                    u, date, encrypted = line.strip().split("||")
-                    if u == self.user.username:
-                        entry = MyEntry("", self.encryption) #binago
-                        entry.entry_date = date
-                        entry.encrypted_content = encrypted
-                        entries.append(entry)
-        return entries
+   def _load_entries(self):
+    entries = []
+    if os.path.exists(self.ENTRY_FILE):
+        with open(self.ENTRY_FILE, "r") as f:
+            for line in f:
+                parts = line.strip().split("||")
+                if len(parts) < 4:  # Ensure there are enough parts
+                    print(f"Skipping malformed entry: {line.strip()}")
+                    continue
+                entry_type = parts[0]
+                if entry_type == "REGULAR":
+                    username, entry = MyEntry.deserialize(line.strip(), self.encryption)
+                elif entry_type == "REFLECTIVE":
+                    username, entry = ReflectiveTextEntry.deserialize(line.strip(), self.encryption)
+                else:
+                    continue
+                if username == self.user.username:
+                    entries.append(entry)
+    return entries
 
     def _save_entries(self):
         with open(self.ENTRY_FILE, "w") as f:
@@ -255,9 +262,9 @@ import random
 from datetime import datetime
 from abc import ABC, abstractmethod
 
-# -------------------------
-# User Class
-# -------------------------
+# =========================================================
+# User Class: Handles user authentication & password changes
+# =========================================================
 class User:
     def __init__(self, username, password, name):
         self.username = username
@@ -265,6 +272,7 @@ class User:
         self.name = name
 
     def change_password(self, old_password, new_password):
+        """Change user password after verifying old one."""
         if old_password == self._password:
             self._password = new_password
             print("Password changed successfully.")
@@ -274,33 +282,37 @@ class User:
             return False
 
 
-# -------------------------
-# Encryption Class
-# -------------------------
+# =========================================================
+# Encryption Class: Handles simple symmetric encryption
+# =========================================================
 class Encryption:
     def __init__(self, key: str):
+        """Initialize with a key that generates a unique cipher."""
         self.key = key
         self.alphabet = string.ascii_letters + string.digits + string.punctuation + " "
         self.cipher = self._make_cipher(key)
         self.reverse_cipher = {v: k for k, v in self.cipher.items()}
 
     def _make_cipher(self, password: str):
+        """Create a shuffled mapping based on the password."""
         chars = list(self.alphabet)
-        random.seed(password)  # makes cipher unique per password
+        random.seed(password)
         shuffled = chars.copy()
         random.shuffle(shuffled)
         return dict(zip(chars, shuffled))
 
     def encrypt(self, text: str) -> str:
+        """Encrypt plain text using the cipher."""
         return "".join(self.cipher.get(c, c) for c in text)
 
     def decrypt(self, text: str) -> str:
+        """Decrypt encrypted text using the reverse cipher."""
         return "".join(self.reverse_cipher.get(c, c) for c in text)
 
 
-# -------------------------
-# Abstract DiaryEntry Class
-# -------------------------
+# =========================================================
+# Abstract DiaryEntry: Base class for all diary entries
+# =========================================================
 class DiaryEntry(ABC):
     def __init__(self, title: str, content: str, encryption, entry_date=None):
         self.title = title
@@ -308,40 +320,46 @@ class DiaryEntry(ABC):
         self.encrypted_content = encryption.encrypt(content)
 
     def get_content(self, encryption):
+        """Decrypt and return the entry content."""
         return encryption.decrypt(self.encrypted_content)
 
     def set_content(self, new_content, encryption):
+        """Encrypt and set new entry content."""
         self.encrypted_content = encryption.encrypt(new_content)
 
     def get_entry_date(self):
         return self.entry_date
-    
+
     def get_title(self):
         return self.title
 
     @abstractmethod
     def display_entry(self, encryption):
+        """Display entry details (implemented by subclasses)."""
         pass
 
     @abstractmethod
     def serialize(self, username: str):
+        """Convert entry to a savable string."""
         pass
 
     @classmethod
     @abstractmethod
     def deserialize(cls, data: str, encryption):
+        """Reconstruct an entry from saved data."""
         pass
 
 
-# -------------------------
-# Regular Text Entry
-# -------------------------
+# =========================================================
+# Regular Entry: Basic diary entry with title & content
+# =========================================================
 class MyEntry(DiaryEntry):
-    def __init__(self, title, content, encryption, entry_date=None):
-        super().__init__(title, content, encryption, entry_date)
-
     def display_entry(self, encryption):
-        return f"Title: {self.get_title()}\nDate: {self.get_entry_date()}\nContent: {self.get_content(encryption)}"
+        return (
+            f"Title: {self.get_title()}\n"
+            f"Date: {self.get_entry_date()}\n"
+            f"Content: {self.get_content(encryption)}"
+        )
 
     def serialize(self, username: str):
         return f"REGULAR||{username}||{self.get_title()}||{self.entry_date}||{self.encrypted_content}"
@@ -355,9 +373,9 @@ class MyEntry(DiaryEntry):
         return username, entry
 
 
-# -------------------------
-# Reflective Text Entry
-# -------------------------
+# =========================================================
+# Reflective Entry: Adds a mood field to the entry
+# =========================================================
 class ReflectiveTextEntry(DiaryEntry):
     def __init__(self, title, content, mood, encryption, entry_date=None):
         super().__init__(title, content, encryption, entry_date)
@@ -365,8 +383,11 @@ class ReflectiveTextEntry(DiaryEntry):
 
     def display_entry(self, encryption):
         return (
-            f"[Reflective]\nTitle: {self.get_title()}\nDate: {self.get_entry_date()}\n"
-            f"Mood: {self.mood}\nContent: {self.get_content(encryption)}"
+            f"[Reflective]\n"
+            f"Title: {self.get_title()}\n"
+            f"Date: {self.get_entry_date()}\n"
+            f"Mood: {self.mood}\n"
+            f"Content: {self.get_content(encryption)}"
         )
 
     def serialize(self, username: str):
@@ -381,9 +402,9 @@ class ReflectiveTextEntry(DiaryEntry):
         return username, entry
 
 
-# -------------------------
-# DiarySystem Class
-# -------------------------
+# =========================================================
+# DiarySystem: Handles user sessions and entry management
+# =========================================================
 class DiarySystem:
     USER_FILE = "users.txt"
     ENTRY_FILE = "entries.txt"
@@ -393,8 +414,10 @@ class DiarySystem:
         self.encryption = Encryption(user._password)
         self.entries = self._load_entries()
 
+    # ----------------- User Authentication -----------------
     @classmethod
     def login_or_register(cls):
+        """Handle user login or create a new account."""
         users = {}
         if os.path.exists(cls.USER_FILE):
             with open(cls.USER_FILE, "r") as f:
@@ -420,7 +443,9 @@ class DiarySystem:
             print("Account created successfully. Please login again.")
             return None
 
+    # ----------------- Entry Persistence -----------------
     def _load_entries(self):
+        """Load all user entries from the file."""
         entries = []
         if os.path.exists(self.ENTRY_FILE):
             with open(self.ENTRY_FILE, "r") as f:
@@ -438,18 +463,20 @@ class DiarySystem:
         return entries
 
     def _save_entries(self):
+        """Save all entries back to the file."""
         with open(self.ENTRY_FILE, "w") as f:
             for entry in self.entries:
                 f.write(entry.serialize(self.user.username) + "\n")
-                
+
+    # ----------------- CRUD Operations -----------------
     def add_entry(self):
+        """Create either a Regular or Reflective entry."""
         print("\nChoose entry type:")
         print("1. Regular Entry")
         print("2. Reflective Entry")
         choice = input("Type: ")
 
         title = input("Enter the title of your entry: ")
-
         entry = None
 
         if choice == "1":
@@ -468,12 +495,14 @@ class DiarySystem:
         print("Entry added.")
 
     def list_entries(self):
+        """List all entries with their index and date."""
         if not self.entries:
             print("No entries yet.")
         for i, entry in enumerate(self.entries):
             print(f"{i}: {entry.get_entry_date()}")
 
     def view_entry(self, index: int):
+        """Display a specific entry by index."""
         try:
             entry = self.entries[index]
             print(entry.display_entry(self.encryption))
@@ -481,6 +510,7 @@ class DiarySystem:
             print("Invalid entry index.")
 
     def update_entry(self, index: int, new_content: str):
+        """Update content of an existing entry."""
         try:
             self.entries[index].set_content(new_content, self.encryption)
             self._save_entries()
@@ -489,6 +519,7 @@ class DiarySystem:
             print("Invalid entry index.")
 
     def delete_entry(self, index: int):
+        """Delete an entry by index."""
         try:
             del self.entries[index]
             self._save_entries()
@@ -497,9 +528,9 @@ class DiarySystem:
             print("Invalid entry index.")
 
 
-# -------------------------
-# CLI (User Journey)
-# -------------------------
+# =========================================================
+# CLI (Command-Line Interface)
+# =========================================================
 def main():
     print("Welcome to the Encrypted Diary System!")
 
@@ -539,7 +570,7 @@ def main():
             old_pw = input("Enter old password: ")
             new_pw = input("Enter new password: ")
             if user.change_password(old_pw, new_pw):
-                diary.encryption = Encryption(new_pw)
+                diary.encryption = Encryption(new_pw)  # Update encryption with new password
         elif choice == "0":
             print("Goodbye!")
             break
@@ -547,5 +578,5 @@ def main():
             print("Invalid option. Try again.")
 
 
+# Run the program
 main()
-
